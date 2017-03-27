@@ -2929,7 +2929,7 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
         private void EmitNullCoalescingOperator(BoundNullCoalescingOperator expr, bool used)
         {
             Debug.Assert(expr.LeftConversion.IsIdentity, "coalesce with nontrivial left conversions are lowered into ternary.");
-            Debug.Assert(expr.Type.IsReferenceType); //*EIK added "true ||"
+            Debug.Assert(expr.Type.IsReferenceType);
 
             EmitExpression(expr.LeftOperand, used: true);
 
