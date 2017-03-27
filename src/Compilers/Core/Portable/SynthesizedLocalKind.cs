@@ -207,6 +207,12 @@ namespace Microsoft.CodeAnalysis
         InstrumentationPayload = 34,
 
         /// <summary>
+        /// Local variable named "field" that stores a 'ref' to the auto-properties backing field
+        /// Type is of the properties type
+        /// </summary>
+        SemiAutoFieldReference = 35,
+
+        /// <summary>
         /// All values have to be less than or equal to <see cref="MaxValidValueForLocalVariableSerializedToDebugInformation"/> 
         /// (<see cref="EditAndContinueMethodDebugInformation"/>)
         /// </summary>

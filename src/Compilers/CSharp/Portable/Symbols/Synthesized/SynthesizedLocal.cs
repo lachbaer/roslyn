@@ -20,6 +20,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
         private readonly SyntaxNode _syntaxOpt;
         private readonly bool _isPinned;
         private readonly RefKind _refKind;
+        private readonly string _name;
 
 #if DEBUG
         private readonly int _createdAtLineNumber;
@@ -36,8 +37,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
 #if DEBUG
             ,
             [CallerLineNumber]int createdAtLineNumber = 0,
-            [CallerFilePath]string createdAtFilePath = null
+            [CallerFilePath]string createdAtFilePath = null,
 #endif
+            string Name = null
             )
         {
             Debug.Assert(type.SpecialType != SpecialType.System_Void);
@@ -50,6 +52,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             _syntaxOpt = syntaxOpt;
             _isPinned = isPinned;
             _refKind = refKind;
+            _name = Name;
 
 #if DEBUG
             _createdAtLineNumber = createdAtLineNumber;
@@ -70,7 +73,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                 kind,
                 syntax,
                 _isPinned,
-                _refKind);
+                _refKind,
+                Name: _name);
         }
 
         internal override RefKind RefKind
@@ -110,7 +114,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
 
         public override string Name
         {
-            get { return null; }
+            get { return _name; }
         }
 
         public override TypeSymbol Type
