@@ -115,9 +115,47 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             BoundAssignmentOperator tempAssignment;
             BoundLocal boundTemp = _factory.StoreToTemp(rewrittenLeft, out tempAssignment);
+            BoundExpression nullOrDefaultCheck;
 
-            // temp != null
-            BoundExpression nullCheck = MakeNullCheck(syntax, boundTemp, BinaryOperatorKind.NotEqual);
+            //*EIK
+            if (rewrittenLeft.Type.IsIntrinsicType())
+            {
+                // temp != default(A)
+                TypeSymbol boolType = _compilation.GetSpecialType(SpecialType.System_Boolean);
+
+                nullOrDefaultCheck = MakeBinaryOperator(
+                            syntax,
+                            BinaryOperatorKind.NotEqual,
+                            boundTemp,
+                            _factory.Default(rewrittenLeft.Type),
+                            boolType,
+                            null);
+            }
+            else if (rewrittenLeft.Type.IsValueType)
+            {
+                // temp != A.Equals(default(A))
+                var condition = _factory.InstanceCall(rewrittenLeft, "Equals", _factory.Default(rewrittenLeft.Type));
+                if (!condition.HasErrors && condition.Type.SpecialType != SpecialType.System_Boolean)
+                {
+                    var call = (BoundCall)condition;
+                    // '{1} {0}' has the wrong return type
+                    _factory.Diagnostics.Add(ErrorCode.ERR_BadRetType, syntax.GetLocation(), call.Method, call.Type);
+                }
+
+                TypeSymbol boolType = _compilation.GetSpecialType(SpecialType.System_Boolean);
+                nullOrDefaultCheck = MakeUnaryOperator(
+                            UnaryOperatorKind.BoolLogicalNegation,
+                            syntax,
+                            null,
+                            condition,
+                            boolType);
+
+            }
+            else
+            {
+                // temp != null
+                nullOrDefaultCheck = MakeNullCheck(syntax, boundTemp, BinaryOperatorKind.NotEqual);
+            }
 
             // MakeConversion(temp, rewrittenResultType)
             BoundExpression convertedLeft = GetConvertedLeftForNullCoalescingOperator(boundTemp, leftConversion, rewrittenResultType);
@@ -126,7 +164,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             // (temp != null) ? MakeConversion(temp, LeftConversion) : RightOperand
             BoundExpression conditionalExpression = RewriteConditionalOperator(
                 syntax: syntax,
-                rewrittenCondition: nullCheck,
+                rewrittenCondition: nullOrDefaultCheck,
                 rewrittenConsequence: convertedLeft,
                 rewrittenAlternative: rewrittenRight,
                 constantValueOpt: null,
@@ -151,7 +189,8 @@ namespace Microsoft.CodeAnalysis.CSharp
             Debug.Assert(leftConversion.IsValid);
 
             TypeSymbol rewrittenLeftType = rewrittenLeft.Type;
-            Debug.Assert(rewrittenLeftType.IsNullableType() || rewrittenLeftType.IsReferenceType);
+            Debug.Assert(rewrittenLeftType.IsIntrinsicType() || rewrittenLeftType.IsNullableType() 
+                        || rewrittenLeftType.IsReferenceType || rewrittenLeftType.IsValueType); //*EIK added "IsIntrinsicType" and "IsValueType"
 
             // Native compiler violates the specification for the case where result type is right operand type and left operand is nullable.
             // For this case, we need to insert an extra explicit nullable conversion from the left operand to its underlying nullable type
