@@ -477,9 +477,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             RefKind refKind = RefKind.None,
             SynthesizedLocalKind kind = SynthesizedLocalKind.LoweringTemp,
             [CallerLineNumber]int createdAtLineNumber = 0,
-            [CallerFilePath]string createdAtFilePath = null)
+            [CallerFilePath]string createdAtFilePath = null,
+            string Name = null)
         {
-            return new SynthesizedLocal(CurrentMethod, type, kind, syntax, isPinned, refKind, createdAtLineNumber, createdAtFilePath);
+            return new SynthesizedLocal(CurrentMethod, type, kind, syntax, isPinned, refKind, createdAtLineNumber, createdAtFilePath, Name);
         }
 #else
         public LocalSymbol SynthesizedLocal(
@@ -487,9 +488,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             SyntaxNode syntax = null,
             bool isPinned = false,
             RefKind refKind = RefKind.None,
-            SynthesizedLocalKind kind = SynthesizedLocalKind.LoweringTemp)
+            SynthesizedLocalKind kind = SynthesizedLocalKind.LoweringTemp),
+            string Name = null;
         {
-            return new SynthesizedLocal(CurrentMethod, type, kind, syntax, isPinned, refKind);
+            return new SynthesizedLocal(CurrentMethod, type, kind, syntax, isPinned, refKind, Name);
         }
 #endif
 
