@@ -117,7 +117,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             BoundLocal boundTemp = _factory.StoreToTemp(rewrittenLeft, out tempAssignment);
             BoundExpression nullOrDefaultCheck;
 
-            if (rewrittenLeft.Type.IsValueType)
+            if (rewrittenLeft.Type.IsIntrinsicType())
             {
                 // temp != default(A)
                 TypeSymbol boolType = _compilation.GetSpecialType(SpecialType.System_Boolean);
