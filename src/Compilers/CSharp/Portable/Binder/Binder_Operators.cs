@@ -3252,7 +3252,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             // SPEC: Otherwise, if A exists and is not a nullable type or a reference type, a compile-time error occurs.
 
-            if ((object)optLeftType != null /* && !optLeftType.IsReferenceType */ && !isLeftNullable)
+            if ((object)optLeftType != null && !isLeftNullable)
             {
                 return GenerateNullCoalescingBadBinaryOpsError(node, leftOperand, rightOperand, Conversion.NoConversion, diagnostics);
             }

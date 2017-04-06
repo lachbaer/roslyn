@@ -63,7 +63,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             // if left conversion is intrinsic implicit (always succeeds) and results in a reference type
             // we can apply conversion before doing the null check that allows for a more efficient IL emit.
-            if ((rewrittenLeft.Type.IsReferenceType || rewrittenLeft.Type.IsValueType) &&
+            if (rewrittenLeft.Type.IsReferenceType &&
                 leftConversion.IsImplicit &&
                 !leftConversion.IsUserDefined)
             {
