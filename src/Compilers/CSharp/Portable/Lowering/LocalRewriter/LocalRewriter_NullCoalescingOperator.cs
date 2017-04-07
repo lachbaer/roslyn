@@ -123,6 +123,11 @@ namespace Microsoft.CodeAnalysis.CSharp
                 // temp != null
                 nullOrDefaultCheck = MakeNullCheck(syntax, boundTemp, BinaryOperatorKind.NotEqual);
             }
+            else if (rewrittenLeft.Type.IsNullableType())
+            {
+                // temp != null
+                nullOrDefaultCheck = MakeNullCheck(syntax, boundTemp, BinaryOperatorKind.NotEqual);
+            }
             else if (rewrittenLeft.Type.IsIntrinsicType())
             {
                 // temp != default(A)

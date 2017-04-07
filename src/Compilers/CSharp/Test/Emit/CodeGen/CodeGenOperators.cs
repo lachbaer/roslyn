@@ -1024,7 +1024,7 @@ public class C
         }
 
         [WorkItem(541337, "http://vstfdevdiv:8080/DevDiv2/DevDiv/_workitems/edit/541337")]
-        [Fact]
+        [Fact(Skip = "Default-coalescing-operator now allows default(T) ?? x")]
         public void TestNullCoalesce_TypeParameter_Bug8008()
         {
             var source = @"
