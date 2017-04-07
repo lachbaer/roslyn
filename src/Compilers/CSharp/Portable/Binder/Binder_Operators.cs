@@ -3250,13 +3250,14 @@ namespace Microsoft.CodeAnalysis.CSharp
                 return GenerateNullCoalescingBadBinaryOpsError(node, leftOperand, rightOperand, Conversion.NoConversion, diagnostics);
             }
 
+#if false   // We can now default-check every type, so this check is not needed anymore ?! //
             // SPEC: Otherwise, if A exists and is not a nullable type or a reference type, a compile-time error occurs.
 
             if ((object)optLeftType != null && !isLeftNullable) //*EIK removed  "&& !optLeftType.IsReferenceType"
             {
                 return GenerateNullCoalescingBadBinaryOpsError(node, leftOperand, rightOperand, Conversion.NoConversion, diagnostics);
             }
-
+#endif
             // SPEC:    If b is a dynamic expression, the result is dynamic. At runtime, a is first
             // SPEC:    evaluated. If a is not null, a is converted to a dynamic type, and this becomes
             // SPEC:    the result. Otherwise, b is evaluated, and the outcome becomes the result.
