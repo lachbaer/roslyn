@@ -3253,7 +3253,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 #if false   // We can now default-check every type, so this check is not needed anymore ?! //
             // SPEC: Otherwise, if A exists and is not a nullable type or a reference type, a compile-time error occurs.
 
-            if ((object)optLeftType != null && !isLeftNullable) //*EIK removed  "&& !optLeftType.IsReferenceType"
+            if ((object)optLeftType != null && !optLeftType.IsReferenceType && !isLeftNullable)
             {
                 return GenerateNullCoalescingBadBinaryOpsError(node, leftOperand, rightOperand, Conversion.NoConversion, diagnostics);
             }

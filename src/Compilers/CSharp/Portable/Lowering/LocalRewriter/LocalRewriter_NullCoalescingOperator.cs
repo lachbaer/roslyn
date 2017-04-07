@@ -118,7 +118,6 @@ namespace Microsoft.CodeAnalysis.CSharp
             BoundLocal boundTemp = _factory.StoreToTemp(rewrittenLeft, out tempAssignment);
             BoundExpression nullOrDefaultCheck;
 
-            //*EIK
             if (leftIsPointerType)
             {
                 // temp != null
@@ -137,7 +136,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                             boolType,
                             null);
             }
-            //*EIK
             else if (rewrittenLeft.Type.IsValueType)
             {
                 // temp != A.Equals(default(A))
@@ -208,7 +206,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             TypeSymbol rewrittenLeftType = rewrittenLeft.Type;
             Debug.Assert(rewrittenLeftType.IsIntrinsicType() || rewrittenLeftType.IsNullableType()
-                        || rewrittenLeftType.IsReferenceType || rewrittenLeftType.IsValueType); //*EIK added "IsIntrinsicType" and "IsValueType"
+                        || rewrittenLeftType.IsReferenceType || rewrittenLeftType.IsValueType);
 
             // Native compiler violates the specification for the case where result type is right operand type and left operand is nullable.
             // For this case, we need to insert an extra explicit nullable conversion from the left operand to its underlying nullable type
