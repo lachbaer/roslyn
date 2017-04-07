@@ -61,9 +61,10 @@ namespace Microsoft.CodeAnalysis.CSharp
                 return GetConvertedLeftForNullCoalescingOperator(rewrittenLeft, leftConversion, rewrittenResultType);
             }
 
+            var leftIsPointerType = rewrittenLeft.Type.IsPointerType();
             // if left conversion is intrinsic implicit (always succeeds) and results in a reference type
             // we can apply conversion before doing the null check that allows for a more efficient IL emit.
-            if (rewrittenLeft.Type.IsReferenceType &&
+            if ((rewrittenLeft.Type.IsReferenceType || leftIsPointerType) &&
                 leftConversion.IsImplicit &&
                 !leftConversion.IsUserDefined)
             {
@@ -118,7 +119,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             BoundExpression nullOrDefaultCheck;
 
             //*EIK
-            if (rewrittenLeft.Type.IsIntrinsicType())
+            if (leftIsPointerType)
+            {
+                // temp != null
+                nullOrDefaultCheck = MakeNullCheck(syntax, boundTemp, BinaryOperatorKind.NotEqual);
+            }
+            else if (rewrittenLeft.Type.IsIntrinsicType())
             {
                 // temp != default(A)
                 TypeSymbol boolType = _compilation.GetSpecialType(SpecialType.System_Boolean);
@@ -135,7 +141,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             else if (rewrittenLeft.Type.IsValueType)
             {
                 // temp != A.Equals(default(A))
-                var condition = _factory.InstanceCall(rewrittenLeft, "Equals", _factory.Default(rewrittenLeft.Type));
+                var condition = CompareWithTypeDefault(rewrittenLeft);
                 if (!condition.HasErrors && condition.Type.SpecialType != SpecialType.System_Boolean)
                 {
                     var call = (BoundCall)condition;
@@ -180,6 +186,17 @@ namespace Microsoft.CodeAnalysis.CSharp
                 sideEffects: ImmutableArray.Create<BoundExpression>(tempAssignment),
                 value: conditionalExpression,
                 type: rewrittenResultType);
+        }
+
+        // We call static Object.Equals() method to circumvent any custom Equals methods that override comparing with the default(T)
+        private BoundExpression CompareWithTypeDefault(BoundExpression rewrittenLeft)
+        {
+            return _factory.StaticCall(
+                _factory.SpecialType(SpecialType.System_Object),
+                "Equals",
+                _factory.Convert(_factory.SpecialType(SpecialType.System_Object), _factory.Default(rewrittenLeft.Type)),
+                _factory.Convert(_factory.SpecialType(SpecialType.System_Object), rewrittenLeft)
+                );
         }
 
         private BoundExpression GetConvertedLeftForNullCoalescingOperator(BoundExpression rewrittenLeft, Conversion leftConversion, TypeSymbol rewrittenResultType)
