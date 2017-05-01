@@ -10,6 +10,7 @@
     <OutputType>Library</OutputType>
     <AssemblyName>Roslyn.Compilers.VisualBasic.Semantic.UnitTests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <RuntimeIdentifiers>win7</RuntimeIdentifiers>
     <RoslynProjectType>UnitTest</RoslynProjectType>
   </PropertyGroup>
   <ItemGroup Label="Project References">
@@ -53,6 +54,15 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
+    <PackageReference Include="xunit">
+      <Version>$(xunitVersion)</Version>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.console">
+      <Version>$(xunitrunnerconsoleVersion)</Version>
+    </PackageReference>
+    <PackageReference Include="xunit.runner.visualstudio">
+      <Version>$(xunitrunnervisualstudioVersion)</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="My Project\" />
@@ -96,6 +106,11 @@
     <Compile Include="Diagnostics\DiagnosticAnalyzerTests.vb" />
     <Compile Include="Diagnostics\DiagnosticTests.vb" />
     <Compile Include="Diagnostics\GetDiagnosticsTests.vb" />
+    <Compile Include="IOperation\IOperationTests_IArgument.vb" />
+    <Compile Include="IOperation\IOperationTests_InvalidStatement.vb" />
+    <Compile Include="IOperation\IOperationTests_InvalidExpression.vb" />
+    <Compile Include="IOperation\IOperationTests_IBlockStatement_MethodBlocks.vb" />
+    <Compile Include="IOperation\IOperationTests_IIfStatement.vb" />
     <Compile Include="IOperation\IOperationTests_ISymbolInitializer.vb" />
     <Compile Include="IOperation\IOperationTests.vb" />
     <Compile Include="Diagnostics\OperationAnalyzerTests.vb" />
@@ -109,6 +124,7 @@
     <Compile Include="FlowAnalysis\RegionAnalysisTestsWithStaticLocals.vb" />
     <Compile Include="FlowAnalysis\StructureAnalysisTests.vb" />
     <Compile Include="FlowAnalysis\TryLockUsingStatementTests.vb" />
+    <Compile Include="IOperation\IOperationTests_IVariableDeclaration.vb" />
     <Compile Include="Resource.Designer.vb">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -203,9 +219,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Semantics\LongTypeName.vb.txt" />
     <EmbeddedResource Include="Semantics\LongTypeNameNative.vb.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="project.json" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

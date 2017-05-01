@@ -59,6 +59,11 @@ Public Class BuildDevDivInsertionFiles
         "Microsoft.VisualStudio.TeamSystem.Common.dll",
         "Microsoft.VisualStudio.TeamSystem.Common.Framework.dll",
         "Microsoft.VisualStudio.TeamSystem.Integration.dll",
+        "SQLitePCLRaw.batteries_green.dll",
+        "SQLitePCLRaw.batteries_v2.dll",
+        "SQLitePCLRaw.core.dll",
+        "SQLitePCLRaw.provider.e_sqlite3.dll",
+        "e_sqlite3.dll",
         "Newtonsoft.Json.dll",
         "StreamJsonRpc.dll",
         "StreamJsonRpc.resources.dll",
@@ -93,14 +98,15 @@ Public Class BuildDevDivInsertionFiles
     ' the src/NuGet/Microsoft.Net.Compilers.nuspec file, the
     ' src/Setup/DevDivVsix/CompilersPackage/Microsoft.CodeAnalysis.Compilers.swr file,
     ' and src/Compilers/Extension/CompilerExtension.csproj file.
+    '
+    ' Note: Microsoft.DiaSymReader.Native.amd64.dll and Microsoft.DiaSymReader.Native.x86.dll
+    ' are installed by msbuild setup, not Roslyn.
     Private ReadOnly CompilerFiles As String() = {
         "Microsoft.CodeAnalysis.dll",
         "Microsoft.CodeAnalysis.CSharp.dll",
         "Microsoft.CodeAnalysis.Scripting.dll",
         "Microsoft.CodeAnalysis.CSharp.Scripting.dll",
         "Microsoft.CodeAnalysis.VisualBasic.dll",
-        "Microsoft.DiaSymReader.Native.amd64.dll",
-        "Microsoft.DiaSymReader.Native.x86.dll",
         "System.AppContext.dll",
         "System.Console.dll",
         "System.Diagnostics.FileVersionInfo.dll",
@@ -541,8 +547,12 @@ Public Class BuildDevDivInsertionFiles
 
     Private Function BuildDependencyMap(inputDirectory As String) As Dictionary(Of String, DependencyInfo)
         Dim result = New Dictionary(Of String, DependencyInfo)
+        Dim objDir = Path.Combine(Path.GetDirectoryName(_binDirectory.TrimEnd(Path.DirectorySeparatorChar)), "Obj")
+        Dim files = New List(Of String)
+        files.Add(Path.Combine(objDir, "DevDivPackagesRoslyn\project.assets.json"))
+        files.Add(Path.Combine(objDir, "DevDivPackagesDebugger\project.assets.json"))
 
-        For Each projectLockJson In Directory.EnumerateFiles(Path.Combine(_setupDirectory, DevDivPackagesDirName), "*.lock.json", SearchOption.AllDirectories)
+        For Each projectLockJson In files
             Dim items = JsonConvert.DeserializeObject(File.ReadAllText(projectLockJson))
             Const targetFx = ".NETFramework,Version=v4.6/win"
 
@@ -859,7 +869,7 @@ Public Class BuildDevDivInsertionFiles
         add("UnitTests\EditorServicesTest\Microsoft.DiaSymReader.Native.amd64.dll")
         add("UnitTests\EditorServicesTest\Microsoft.DiaSymReader.Native.x86.dll")
         add("UnitTests\EditorServicesTest\Microsoft.VisualStudio.Platform.VSEditor.Interop.dll")
-        add("Dlls\Concord\Microsoft.VisualStudio.Debugger.Engine.dll")
+        add("Vsix\ExpressionEvaluatorPackage\Microsoft.VisualStudio.Debugger.Engine.dll")
         add("Vsix\VisualStudioIntegrationTestSetup\Microsoft.Diagnostics.Runtime.dll")
         add("Vsix\VisualStudioIntegrationTestSetup\Microsoft.VisualStudio.IntegrationTest.Setup.vsix")
         add("Exes\Toolset\System.AppContext.dll")

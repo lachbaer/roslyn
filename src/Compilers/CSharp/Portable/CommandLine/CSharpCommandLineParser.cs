@@ -121,6 +121,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             bool interactiveMode = false;
             bool publicSign = false;
             string sourceLink = null;
+            string ruleSetPath = null;
 
             // Process ruleset files first so that diagnostic severity settings specified on the command line via
             // /nowarn and /warnaserror can override diagnostic severity settings specified in the ruleset file.
@@ -139,7 +140,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                         }
                         else
                         {
-                            generalDiagnosticOption = GetDiagnosticOptionsFromRulesetFile(diagnosticOptions, diagnostics, unquoted, baseDirectory);
+                            ruleSetPath = ParseGenericPathToFile(unquoted, diagnostics, baseDirectory);
+                            generalDiagnosticOption = GetDiagnosticOptionsFromRulesetFile(ruleSetPath, out diagnosticOptions, diagnostics);
                         }
                     }
                 }
@@ -856,13 +858,14 @@ namespace Microsoft.CodeAnalysis.CSharp
                             continue;
 
                         case "keyfile":
+                            value = RemoveQuotesAndSlashes(value);
                             if (string.IsNullOrEmpty(value))
                             {
                                 AddDiagnostic(diagnostics, ErrorCode.ERR_NoFileSpec, "keyfile");
                             }
                             else
                             {
-                                keyFileSetting = RemoveQuotesAndSlashes(value);
+                                keyFileSetting = value;
                             }
                             // NOTE: Dev11/VB also clears "keycontainer", see also:
                             //
@@ -1290,6 +1293,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 PdbPath = pdbPath,
                 EmitPdb = emitPdb,
                 SourceLink = sourceLink,
+                RuleSetPath = ruleSetPath,
                 OutputDirectory = outputDirectory,
                 DocumentationPath = documentationPath,
                 ErrorLogPath = errorLogPath,

@@ -157,6 +157,7 @@ Namespace Microsoft.CodeAnalysis.VisualBasic
             Dim interactiveMode As Boolean = False
             Dim instrumentationKinds As ArrayBuilder(Of InstrumentationKind) = ArrayBuilder(Of InstrumentationKind).GetInstance()
             Dim sourceLink As String = Nothing
+            Dim ruleSetPath As String = Nothing
 
             ' Process ruleset files first so that diagnostic severity settings specified on the command line via
             ' /nowarn and /warnaserror can override diagnostic severity settings specified in the ruleset file.
@@ -171,7 +172,8 @@ Namespace Microsoft.CodeAnalysis.VisualBasic
                             Continue For
                         End If
 
-                        generalDiagnosticOption = GetDiagnosticOptionsFromRulesetFile(specificDiagnosticOptionsFromRuleSet, diagnostics, unquoted, baseDirectory)
+                        ruleSetPath = ParseGenericPathToFile(unquoted, diagnostics, baseDirectory)
+                        generalDiagnosticOption = GetDiagnosticOptionsFromRulesetFile(ruleSetPath, specificDiagnosticOptionsFromRuleSet, diagnostics)
                     End If
                 Next
             End If
@@ -886,7 +888,7 @@ Namespace Microsoft.CodeAnalysis.VisualBasic
                             If String.IsNullOrWhiteSpace(value) Then
                                 AddDiagnostic(diagnostics, ERRID.ERR_ArgumentRequired, "keyfile", ":<file>")
                             Else
-                                keyFileSetting = RemoveQuotesAndSlashes(value)
+                                keyFileSetting = value
                             End If
                             Continue For
 
@@ -1386,6 +1388,7 @@ lVbRuntimePlus:
                 .OutputLevel = outputLevel,
                 .EmitPdb = emitPdb,
                 .SourceLink = sourceLink,
+                .RuleSetPath = ruleSetPath,
                 .DefaultCoreLibraryReference = defaultCoreLibraryReference,
                 .PreferredUILang = preferredUILang,
                 .ReportAnalyzer = reportAnalyzer,

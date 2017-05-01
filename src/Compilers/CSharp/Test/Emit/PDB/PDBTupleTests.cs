@@ -19,7 +19,7 @@ namespace Microsoft.CodeAnalysis.CSharp.UnitTests.PDB
         (int A, int B, (int C, int), int, int, int G, int H, int I) t = (1, 2, (3, 4), 5, 6, 7, 8, 9);
     }
 }";
-            var comp = CreateCompilationWithMscorlib(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
+            var comp = CreateStandardCompilation(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
             comp.VerifyPdb(
 @"<symbols>
   <methods>
@@ -63,7 +63,7 @@ class C
         const C<(int A, int B)> c = null;
     }
 }";
-            var comp = CreateCompilationWithMscorlib(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
+            var comp = CreateStandardCompilation(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
             comp.VerifyPdb(
 @"<symbols>
   <methods>
@@ -112,7 +112,7 @@ class C
         }
     }
 }";
-            var comp = CreateCompilationWithMscorlib(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
+            var comp = CreateStandardCompilation(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
             comp.VerifyPdb(
 @"<symbols>
   <methods>
@@ -122,10 +122,10 @@ class C
           <namespace usingCount=""0"" />
         </using>
         <dynamicLocals>
-          <bucket flagCount=""5"" flags=""00100"" slotId=""0"" localName=""x"" />
-          <bucket flagCount=""5"" flags=""00010"" slotId=""0"" localName=""y"" />
-          <bucket flagCount=""4"" flags=""0001"" slotId=""0"" localName=""x"" />
-          <bucket flagCount=""4"" flags=""0001"" slotId=""0"" localName=""y"" />
+          <bucket flags=""00100"" slotId=""0"" localName=""x"" />
+          <bucket flags=""00010"" slotId=""0"" localName=""y"" />
+          <bucket flags=""0001"" slotId=""0"" localName=""x"" />
+          <bucket flags=""0001"" slotId=""0"" localName=""y"" />
         </dynamicLocals>
         <tupleElementNames>
           <local elementNames=""|A|B|"" slotIndex=""0"" localName=""x"" scopeStart=""0x0"" scopeEnd=""0x0"" />
@@ -176,7 +176,7 @@ class C
         (int \u1234, int, int \u005f\u1200\u005f) \u1200 = (1, 2, 3);
     }
 }";
-            var comp = CreateCompilationWithMscorlib(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
+            var comp = CreateStandardCompilation(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
             comp.VerifyPdb(
 string.Format(@"<symbols>
   <methods>
@@ -224,7 +224,7 @@ string.Format(@"<symbols>
         } //10,9
     } //11,5
 }";
-            var comp = CreateCompilationWithMscorlib(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
+            var comp = CreateStandardCompilation(source, new[] { ValueTupleRef, SystemRuntimeFacadeRef }, options: TestOptions.DebugDll);
             comp.VerifyPdb(
 string.Format(@"<symbols>
   <methods>

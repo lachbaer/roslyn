@@ -15,17 +15,17 @@ function Terminate-BuildProcesses() {
 }
 
 try {
+    Write-Host "${env:Userprofile}"
     . (Join-Path $PSScriptRoot "..\..\..\build\scripts\build-utils.ps1")
     Push-Location $PSScriptRoot
 
     $nuget = Ensure-NuGet
-    Exec { & $nuget locals all -clear }
+    Exec-Block { & $nuget locals all -clear } | Out-Host
 
     $msbuild = Ensure-MSBuild
-    & $msbuild /nodereuse:false /p:Configuration=Release /p:SkipTest=true Build.proj 
-    if (-not $?) { 
-        throw "Build failed"
-    }
+
+    # The /nowarn exception can be removed once we fix https://github.com/dotnet/roslyn/issues/17325
+    Exec-Block { & $msbuild /nodereuse:false /p:Configuration=Release /p:SkipTest=true Build.proj /warnaserror /nowarn:MSB3277 } | Out-Host
 
     exit 0
 }

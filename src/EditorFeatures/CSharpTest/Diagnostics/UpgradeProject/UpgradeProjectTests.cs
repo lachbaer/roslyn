@@ -39,7 +39,7 @@ namespace Microsoft.CodeAnalysis.Editor.CSharp.UnitTests.Diagnostics.Async
         }
 
         [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
-        public async Task UpgradeProjectToDefault()
+        public async Task UpgradeProjectFromCSharp6ToDefault()
         {
             await TestLanguageVersionUpgradedAsync(
 @"
@@ -55,7 +55,7 @@ class Program
         }
 
         [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
-        public async Task UpgradeProjectToCSharp7()
+        public async Task UpgradeProjectFromCSharp6ToCSharp7()
         {
             await TestLanguageVersionUpgradedAsync(
 @"
@@ -68,6 +68,114 @@ class Program
 }",
                 LanguageVersion.CSharp7,
                 new CSharpParseOptions(LanguageVersion.CSharp6),
+                index: 1);
+        }
+
+        [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
+        public async Task UpgradeProjectFromCSharp5ToCSharp6()
+        {
+            await TestLanguageVersionUpgradedAsync(
+@"
+class Program
+{
+    void A()
+    {
+        var x = [|nameof(A)|];
+    }
+}",
+                LanguageVersion.CSharp6,
+                new CSharpParseOptions(LanguageVersion.CSharp5),
+                index: 1);
+        }
+
+        [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
+        public async Task UpgradeProjectFromCSharp4ToCSharp5()
+        {
+            await TestLanguageVersionUpgradedAsync(
+@"
+class Program
+{
+    void A()
+    {
+        Func<int, Task<int>> f = [|async|] x => x;
+    }
+}",
+                LanguageVersion.CSharp5,
+                new CSharpParseOptions(LanguageVersion.CSharp4),
+                index: 1);
+        }
+
+        [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
+        public async Task UpgradeProjectFromCSharp7ToLatest()
+        {
+            await TestLanguageVersionUpgradedAsync(
+@"
+class Program
+{
+#error version:[|7.1|]
+}",
+                LanguageVersion.Latest,
+                new CSharpParseOptions(LanguageVersion.CSharp7));
+        }
+
+        [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
+        public async Task UpgradeProjectFromCSharp7ToLatest_TriggeredByInferredTupleNames()
+        {
+            await TestLanguageVersionUpgradedAsync(
+@"
+class Program
+{
+    void M()
+    {
+        int b = 2;
+        var t = (1, b);
+        System.Console.Write(t.[|b|]);
+    }
+}
+
+namespace System
+{
+    public struct ValueTuple<T1, T2>
+    {
+        public T1 Item1;
+        public T2 Item2;
+
+        public ValueTuple(T1 item1, T2 item2)
+        {
+            this.Item1 = item1;
+            this.Item2 = item2;
+        }
+    }
+}
+",
+                LanguageVersion.Latest,
+                new CSharpParseOptions(LanguageVersion.CSharp7));
+        }
+
+        [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
+        public async Task UpgradeProjectFromCSharp7_1ToLatest()
+        {
+            await TestLanguageVersionUpgradedAsync(
+@"
+class Program
+{
+#error version:[|7.1|]
+}",
+                LanguageVersion.Latest,
+                new CSharpParseOptions(LanguageVersion.CSharp7_1));
+        }
+
+        [Fact, Trait(Traits.Feature, Traits.Features.CodeActionsUpgradeProject)]
+        public async Task UpgradeProjectFromCSharp7ToCSharp7_1()
+        {
+            await TestLanguageVersionUpgradedAsync(
+@"
+class Program
+{
+#error [|version:7.1|]
+}",
+                LanguageVersion.CSharp7_1,
+                new CSharpParseOptions(LanguageVersion.CSharp7),
                 index: 1);
         }
 

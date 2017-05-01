@@ -10578,6 +10578,15 @@ Namespace Microsoft.CodeAnalysis.VisualBasic
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to Tuple element name &apos;{0}&apos; is inferred. Please use language version {1} or greater to access an element by its inferred name..
+        '''</summary>
+        Friend ReadOnly Property ERR_TupleInferredNamesNotAvailable() As String
+            Get
+                Return ResourceManager.GetString("ERR_TupleInferredNamesNotAvailable", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Type characters cannot be used in tuple literals..
         '''</summary>
         Friend ReadOnly Property ERR_TupleLiteralDisallowsTypeChar() As String
@@ -13387,6 +13396,24 @@ Namespace Microsoft.CodeAnalysis.VisualBasic
         End Property
         
         '''<summary>
+        '''  Looks up a localized string similar to &apos;{0}&apos; is for evaluation purposes only and is subject to change or removal in future updates..
+        '''</summary>
+        Friend ReadOnly Property WRN_Experimental() As String
+            Get
+                Return ResourceManager.GetString("WRN_Experimental", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
+        '''  Looks up a localized string similar to Type is for evaluation purposes only and is subject to change or removal in future updates..
+        '''</summary>
+        Friend ReadOnly Property WRN_Experimental_Title() As String
+            Get
+                Return ResourceManager.GetString("WRN_Experimental_Title", resourceCulture)
+            End Get
+        End Property
+        
+        '''<summary>
         '''  Looks up a localized string similar to Type of member &apos;{0}&apos; is not CLS-compliant..
         '''</summary>
         Friend ReadOnly Property WRN_FieldNotCLSCompliant1() As String
@@ -14773,7 +14800,7 @@ Namespace Microsoft.CodeAnalysis.VisualBasic
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to The tuple element name &apos;{0}&apos; is ignored because a different name is specified by the target type &apos;{1}&apos;..
+        '''  Looks up a localized string similar to The tuple element name &apos;{0}&apos; is ignored because a different name or no name is specified by the target type &apos;{1}&apos;..
         '''</summary>
         Friend ReadOnly Property WRN_TupleLiteralNameMismatch() As String
             Get
@@ -14782,7 +14809,7 @@ Namespace Microsoft.CodeAnalysis.VisualBasic
         End Property
         
         '''<summary>
-        '''  Looks up a localized string similar to The tuple element name is ignored because a different name is specified by the assignment target..
+        '''  Looks up a localized string similar to The tuple element name is ignored because a different name or no name is specified by the assignment target..
         '''</summary>
         Friend ReadOnly Property WRN_TupleLiteralNameMismatch_Title() As String
             Get
