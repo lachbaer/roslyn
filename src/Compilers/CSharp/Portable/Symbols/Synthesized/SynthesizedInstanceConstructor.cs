@@ -10,11 +10,24 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
     internal class SynthesizedInstanceConstructor : SynthesizedInstanceMethodSymbol
     {
         private readonly NamedTypeSymbol _containingType;
+        private readonly bool _containingSymbolHasInitializers;
 
         internal SynthesizedInstanceConstructor(NamedTypeSymbol containingType)
+            : this(containingType, false) { }
+
+        internal SynthesizedInstanceConstructor(NamedTypeSymbol containingType, bool hasInitializers)
         {
             Debug.Assert((object)containingType != null);
             _containingType = containingType;
+            _containingSymbolHasInitializers = hasInitializers;
+        }
+
+        internal bool ContainingSymbolHasInitializers
+        {
+            get
+            {
+                return _containingSymbolHasInitializers;
+            }
         }
 
         //

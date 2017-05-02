@@ -332,9 +332,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
         /// </summary>
         internal static bool IsDefaultValueTypeConstructor(this MethodSymbol method)
         {
-            return method.IsImplicitlyDeclared &&
-                   method.ContainingType.IsValueType &&
-                   method.IsParameterlessConstructor();
+            return false;
+            var constructor = method as SynthesizedInstanceConstructor;
+            return constructor != null &&
+                   constructor.IsImplicitlyDeclared &&
+                   constructor.ContainingType.IsValueType &&
+                   constructor.ContainingSymbolHasInitializers &&
+                   constructor.IsParameterlessConstructor();
         }
 
         /// <summary>
