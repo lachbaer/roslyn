@@ -2234,11 +2234,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             var builder = new MembersAndInitializersBuilder();
             AddDeclaredNontypeMembers(builder, diagnostics);
 
+            var hasDefaultConstructor = false;
             switch (TypeKind)
             {
                 case TypeKind.Struct:
-                    CheckForStructBadInitializers(builder, diagnostics);
-                    CheckForStructDefaultConstructors(builder.NonTypeNonIndexerMembers, builder.InstanceInitializers, this, isEnum: false, diagnostics: diagnostics);
+                    hasDefaultConstructor = CheckForStructDefaultConstructors(builder.NonTypeNonIndexerMembers, builder.InstanceInitializers, this, isEnum: false, diagnostics: diagnostics);
+                    CheckForStructBadInitializers(builder, hasDefaultConstructor, diagnostics);
                     AddSynthesizedConstructorsIfNecessary(builder.NonTypeNonIndexerMembers, builder.StaticInitializers, diagnostics);
                     break;
 
@@ -2730,7 +2731,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             }
         }
 
-        private static void CheckForStructDefaultConstructors(
+        private static bool CheckForStructDefaultConstructors(
             ArrayBuilder<Symbol> members,
             ArrayBuilder<ImmutableArray<FieldOrPropertyInitializer>> instanceInitializers,
             SourceMemberContainerTypeSymbol symbol,
@@ -2751,7 +2752,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         }
                         else
                         {
-                            //diagnostics.Add(ErrorCode.ERR_StructsCantContainDefaultConstructor, m.Locations[0]);
+                            if (m.DeclaredAccessibility != Accessibility.Public)
+                            {
+                                // TODO: better accessibility resolution and correct error
+                                diagnostics.Add(ErrorCode.ERR_StructsCantContainDefaultConstructor, m.Locations[0]);
+                            }
+
                             hasStandardConstructor = true;
                         }
                     }
@@ -2761,9 +2767,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             {
                 diagnostics.Add(ErrorCode.ERR_StructsWithInitializersNeedsDefaultConstructor, symbol.Locations[0], symbol.Name);
             }
+            return hasStandardConstructor;
         }
 
-        private void CheckForStructBadInitializers(MembersAndInitializersBuilder builder, DiagnosticBag diagnostics)
+        private void CheckForStructBadInitializers(MembersAndInitializersBuilder builder, bool hasDefaultConstructor, DiagnosticBag diagnostics)
         {
             Debug.Assert(TypeKind == TypeKind.Struct);
 
@@ -2772,7 +2779,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                 foreach (FieldOrPropertyInitializer initializer in initializers)
                 {
                     // '{0}': cannot have instance field initializers in structs
-                    diagnostics.Add(ErrorCode.ERR_FieldInitializerInStruct, (initializer.FieldOpt.AssociatedSymbol ?? initializer.FieldOpt).Locations[0], this);
+                    if (!hasDefaultConstructor)
+                    {
+                        diagnostics.Add(ErrorCode.ERR_FieldInitializerInStruct, (initializer.FieldOpt.AssociatedSymbol ?? initializer.FieldOpt).Locations[0], this);
+                    }
                 }
             }
         }

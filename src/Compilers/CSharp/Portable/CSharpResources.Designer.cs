@@ -4526,7 +4526,7 @@ namespace Microsoft.CodeAnalysis.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &apos;{0}&apos;: cannot have instance property or field initializers in structs.
+        ///   Looks up a localized string similar to &apos;{0}&apos;: cannot have instance property or field initializers in structs without custom parameterless constructor.
         /// </summary>
         internal static string ERR_FieldInitializerInStruct {
             get {
@@ -8875,7 +8875,7 @@ namespace Microsoft.CodeAnalysis.CSharp {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Struct with field initializers must have a parameterless default constructor &apos;{0}&apos;..
+        ///   Looks up a localized string similar to Struct with field initializers must have a parameterless default constructor &apos;{0}()&apos;..
         /// </summary>
         internal static string ERR_StructsWithInitializersNeedsDefaultConstructor {
             get {
