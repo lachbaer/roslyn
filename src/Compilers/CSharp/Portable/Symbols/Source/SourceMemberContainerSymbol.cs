@@ -2238,12 +2238,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             {
                 case TypeKind.Struct:
                     CheckForStructBadInitializers(builder, diagnostics);
-                    CheckForStructDefaultConstructors(builder.NonTypeNonIndexerMembers, isEnum: false, diagnostics: diagnostics);
+                    CheckForStructDefaultConstructors(builder.NonTypeNonIndexerMembers, builder.InstanceInitializers, this, isEnum: false, diagnostics: diagnostics);
                     AddSynthesizedConstructorsIfNecessary(builder.NonTypeNonIndexerMembers, builder.StaticInitializers, diagnostics);
                     break;
 
                 case TypeKind.Enum:
-                    CheckForStructDefaultConstructors(builder.NonTypeNonIndexerMembers, isEnum: true, diagnostics: diagnostics);
+                    CheckForStructDefaultConstructors(builder.NonTypeNonIndexerMembers, builder.InstanceInitializers, this, isEnum: true, diagnostics: diagnostics);
                     AddSynthesizedConstructorsIfNecessary(builder.NonTypeNonIndexerMembers, builder.StaticInitializers, diagnostics);
                     break;
 
@@ -2732,9 +2732,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
 
         private static void CheckForStructDefaultConstructors(
             ArrayBuilder<Symbol> members,
+            ArrayBuilder<ImmutableArray<FieldOrPropertyInitializer>> instanceInitializers,
+            SourceMemberContainerTypeSymbol symbol,
             bool isEnum,
             DiagnosticBag diagnostics)
         {
+            bool hasStandardConstructor = false;
             foreach (var s in members)
             {
                 var m = s as MethodSymbol;
@@ -2749,9 +2752,14 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
                         else
                         {
                             //diagnostics.Add(ErrorCode.ERR_StructsCantContainDefaultConstructor, m.Locations[0]);
+                            hasStandardConstructor = true;
                         }
                     }
                 }
+            }
+            if (!isEnum && !hasStandardConstructor && instanceInitializers.Count > 0)
+            {
+                diagnostics.Add(ErrorCode.ERR_StructsCantContainDefaultConstructor, symbol.Locations[0]);
             }
         }
 

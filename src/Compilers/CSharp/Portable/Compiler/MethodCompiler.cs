@@ -893,8 +893,9 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return;
                 }
 
-                // no need to emit the default ctor, we are not emitting those
-                if (methodSymbol.IsDefaultValueTypeConstructor())
+                var containingTypeHasFieldInitializers = !processedInitializers.BoundInitializers.IsDefaultOrEmpty;
+                // no need to emit the default ctor if there are no initializers, we are not emitting those
+                if (methodSymbol.IsDefaultValueTypeConstructor() && !containingTypeHasFieldInitializers)
                 {
                     return;
                 }
@@ -929,7 +930,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 else
                 {
                     // Do not emit initializers if we are invoking another constructor of this class.
-                    includeInitializersInBody = !processedInitializers.BoundInitializers.IsDefaultOrEmpty &&
+                    includeInitializersInBody = containingTypeHasFieldInitializers &&
                                                 !HasThisConstructorInitializer(methodSymbol);
 
                     body = BindMethodBody(methodSymbol, compilationState, diagsForCurrentMethod, out importChain, out originalBodyNested);
@@ -1082,7 +1083,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     // don't emit if the resulting method would contain initializers with errors
                     if (!hasErrors && (hasBody || includeInitializersInBody))
                     {
-                        Debug.Assert(!methodSymbol.IsImplicitInstanceConstructor || !methodSymbol.ContainingType.IsStructType());
+                        Debug.Assert(!methodSymbol.IsImplicitInstanceConstructor || !methodSymbol.ContainingType.IsStructType() || containingTypeHasFieldInitializers);
 
                         // Fields must be initialized before constructor initializer (which is the first statement of the analyzed body, if specified),
                         // so that the initialization occurs before any method overridden by the declaring class can be invoked from the base constructor
