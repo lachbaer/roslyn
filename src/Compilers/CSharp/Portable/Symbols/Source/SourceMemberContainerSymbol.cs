@@ -2759,7 +2759,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Symbols
             }
             if (!isEnum && !hasStandardConstructor && instanceInitializers.Count > 0)
             {
-                diagnostics.Add(ErrorCode.ERR_StructsCantContainDefaultConstructor, symbol.Locations[0]);
+                diagnostics.Add(ErrorCode.ERR_StructsWithInitializersNeedsDefaultConstructor, symbol.Locations[0], symbol.Name);
             }
         }
 

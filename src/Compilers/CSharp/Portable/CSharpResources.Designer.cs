@@ -8875,6 +8875,15 @@ namespace Microsoft.CodeAnalysis.CSharp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Struct with field initializers must have a parameterless default constructor &apos;{0}&apos;..
+        /// </summary>
+        internal static string ERR_StructsWithInitializersNeedsDefaultConstructor {
+            get {
+                return ResourceManager.GetString("ERR_StructsWithInitializersNeedsDefaultConstructor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &apos;{0}&apos;: structs cannot call base class constructors.
         /// </summary>
         internal static string ERR_StructWithBaseConstructorCall {

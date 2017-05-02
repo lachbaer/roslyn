@@ -1476,6 +1476,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         WRN_Experimental = 8305,
         ERR_TupleInferredNamesNotAvailable = 8306,
         ERR_TypelessTupleInAs = 8307,
+        ERR_StructsWithInitializersNeedsDefaultConstructor = 8317,
 
         #region diagnostics for C# 7.1
 
