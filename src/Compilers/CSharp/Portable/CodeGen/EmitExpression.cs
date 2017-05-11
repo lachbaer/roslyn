@@ -187,6 +187,10 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
                     EmitIsExpression((BoundIsOperator)expression, used);
                     break;
 
+                case BoundKind.IsNotOperator:
+                    EmitIsNotExpression((BoundIsNotOperator)expression, used);
+                    break;
+
                 case BoundKind.AsOperator:
                     EmitAsExpression((BoundAsOperator)expression, used);
                     break;
@@ -2587,6 +2591,25 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
                 EmitSymbolToken(isOp.TargetType.Type, isOp.Syntax);
                 _builder.EmitOpCode(ILOpCode.Ldnull);
                 _builder.EmitOpCode(ILOpCode.Cgt_un);
+            }
+        }
+
+        private void EmitIsNotExpression(BoundIsNotOperator isNotOp, bool used)
+        {
+            var operand = isNotOp.Operand;
+            EmitExpression(operand, used);
+            if (used)
+            {
+                Debug.Assert((object)operand.Type != null);
+                if (!operand.Type.IsVerifierReference())
+                {
+                    // box the operand for isinst if it is not a verifier reference
+                    EmitBox(operand.Type, operand.Syntax);
+                }
+                _builder.EmitOpCode(ILOpCode.Isinst);
+                EmitSymbolToken(isNotOp.TargetType.Type, isNotOp.Syntax);
+                _builder.EmitOpCode(ILOpCode.Ldnull);
+                _builder.EmitOpCode(ILOpCode.Ceq);
             }
         }
 

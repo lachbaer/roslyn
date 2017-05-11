@@ -2156,6 +2156,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             return null;
         }
 
+        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
+        {
+            VisitRvalue(node.Operand);
+            return null;
+        }
+
         public override BoundNode VisitMethodGroup(BoundMethodGroup node)
         {
             if (node.ReceiverOpt != null)

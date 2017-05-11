@@ -534,6 +534,23 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
                     _builder.EmitBranch(ilcode, dest);
                     return;
 
+                case BoundKind.IsNotOperator:
+                    var isNotOp = (BoundIsNotOperator)condition;
+                    operand = isNotOp.Operand;
+                    EmitExpression(operand, true);
+                    Debug.Assert((object)operand.Type != null);
+                    if (!operand.Type.IsVerifierReference())
+                    {
+                        // box the operand for isinst if it is not a verifier reference
+                        EmitBox(operand.Type, operand.Syntax);
+                    }
+                    _builder.EmitOpCode(ILOpCode.Isinst);
+                    EmitSymbolToken(isNotOp.TargetType.Type, isNotOp.TargetType.Syntax);
+                    ilcode = sense ? ILOpCode.Brfalse : ILOpCode.Brtrue;
+                    dest = dest ?? new object();
+                    _builder.EmitBranch(ilcode, dest);
+                    return;
+
                 case BoundKind.Sequence:
                     var seq = (BoundSequence)condition;
                     EmitSequenceCondBranch(seq, ref dest, sense);

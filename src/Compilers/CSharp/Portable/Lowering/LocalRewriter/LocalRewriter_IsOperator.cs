@@ -19,6 +19,15 @@ namespace Microsoft.CodeAnalysis.CSharp
             return MakeIsOperator(node, node.Syntax, rewrittenOperand, rewrittenTargetType, node.Conversion, rewrittenType);
         }
 
+        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
+        {
+            BoundExpression rewrittenOperand = VisitExpression(node.Operand);
+            var rewrittenTargetType = (BoundTypeExpression)VisitTypeExpression(node.TargetType);
+            TypeSymbol rewrittenType = VisitType(node.Type);
+
+            return MakeIsOperator(node, node.Syntax, rewrittenOperand, rewrittenTargetType, node.Conversion, rewrittenType);
+        }
+        //*EIK adapt method
         private BoundExpression MakeIsOperator(
             BoundIsOperator oldNode,
             SyntaxNode syntax,
