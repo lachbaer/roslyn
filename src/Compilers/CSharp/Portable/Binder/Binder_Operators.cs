@@ -2721,7 +2721,9 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private BoundExpression BindIsNotOperator(BinaryExpressionSyntax node, DiagnosticBag diagnostics)
         {
-            throw new NotImplementedException("//*EIK");
+            var boolean = GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
+            var isOperator = BindIsOperator(node, diagnostics);
+            return new BoundUnaryOperator(node, UnaryOperatorKind.BoolLogicalNegation, isOperator, ConstantValue.NotAvailable, null, LookupResultKind.Empty, boolean);
         }
 
         private static void ReportIsOperatorConstantWarnings(
