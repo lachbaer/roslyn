@@ -9163,7 +9163,7 @@ tryAgain:
             var node = this.ParseTypeOrPatternForIsOperator();
             if (node is PatternSyntax)
             {
-                var result = _syntaxFactory.IsPatternExpression(leftOperand, opToken, (PatternSyntax)node);
+                var result = _syntaxFactory.IsNotExpression(leftOperand, opToken, (PatternSyntax)node);
                 return this.AddError(result, ErrorCode.ERR_InvalidExprTerm, this.CurrentToken.Text);
 
                 //return CheckFeatureAvailability(result, MessageID.IDS_FeaturePatternMatching);

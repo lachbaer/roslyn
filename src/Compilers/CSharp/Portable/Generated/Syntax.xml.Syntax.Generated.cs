@@ -6537,6 +6537,99 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
     }
   }
 
+  /// <summary>Class which represents a simple pattern-maching expresion using the "is" keyword.</summary>
+  public sealed partial class IsNotExpressionSyntax : ExpressionSyntax
+  {
+    private ExpressionSyntax expression;
+    private PatternSyntax pattern;
+
+    internal IsNotExpressionSyntax(Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.CSharpSyntaxNode green, SyntaxNode parent, int position)
+        : base(green, parent, position)
+    {
+    }
+
+    /// <summary>ExpressionSyntax node representing the expression on the left of the "notis" operator.</summary>
+    public ExpressionSyntax Expression 
+    {
+        get
+        {
+            return this.GetRedAtZero(ref this.expression);
+        }
+    }
+
+    public SyntaxToken IsNotKeyword 
+    {
+      get { return new SyntaxToken(this, ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.IsNotExpressionSyntax)this.Green).isNotKeyword, this.GetChildPosition(1), this.GetChildIndex(1)); }
+    }
+
+    /// <summary>PatternSyntax node representing the pattern on the right of the "is" operator.</summary>
+    public PatternSyntax Pattern 
+    {
+        get
+        {
+            return this.GetRed(ref this.pattern, 2);
+        }
+    }
+
+    internal override SyntaxNode GetNodeSlot(int index)
+    {
+        switch (index)
+        {
+            case 0: return this.GetRedAtZero(ref this.expression);
+            case 2: return this.GetRed(ref this.pattern, 2);
+            default: return null;
+        }
+    }
+    internal override SyntaxNode GetCachedSlot(int index)
+    {
+        switch (index)
+        {
+            case 0: return this.expression;
+            case 2: return this.pattern;
+            default: return null;
+        }
+    }
+
+    public override TResult Accept<TResult>(CSharpSyntaxVisitor<TResult> visitor)
+    {
+        return visitor.VisitIsNotExpression(this);
+    }
+
+    public override void Accept(CSharpSyntaxVisitor visitor)
+    {
+        visitor.VisitIsNotExpression(this);
+    }
+
+    public IsNotExpressionSyntax Update(ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern)
+    {
+        if (expression != this.Expression || isNotKeyword != this.IsNotKeyword || pattern != this.Pattern)
+        {
+            var newNode = SyntaxFactory.IsNotExpression(expression, isNotKeyword, pattern);
+            var annotations = this.GetAnnotations();
+            if (annotations != null && annotations.Length > 0)
+               return newNode.WithAnnotations(annotations);
+            return newNode;
+        }
+
+        return this;
+    }
+
+    public IsNotExpressionSyntax WithExpression(ExpressionSyntax expression)
+    {
+        return this.Update(expression, this.IsNotKeyword, this.Pattern);
+    }
+
+    public IsNotExpressionSyntax WithIsNotKeyword(SyntaxToken isNotKeyword)
+    {
+        return this.Update(this.Expression, isNotKeyword, this.Pattern);
+    }
+
+    public IsNotExpressionSyntax WithPattern(PatternSyntax pattern)
+    {
+        return this.Update(this.Expression, this.IsNotKeyword, pattern);
+    }
+  }
+
   public sealed partial class ThrowExpressionSyntax : ExpressionSyntax
   {
     private ExpressionSyntax expression;
