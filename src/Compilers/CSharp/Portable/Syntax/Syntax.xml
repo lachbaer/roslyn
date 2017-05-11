@@ -2208,7 +2208,7 @@
         </summary>
       </PropertyComment>
     </Field>
-    <Field Name="OpenParenToken" Type="SyntaxToken">
+    <Field Name="OpenParenToken" Type="SyntaxToken" Optional="true">
       <Kind Name="OpenParenToken"/>
       <PropertyComment>
         <summary>
@@ -2223,7 +2223,7 @@
         </summary>
       </PropertyComment>
     </Field>
-    <Field Name="CloseParenToken" Type="SyntaxToken">
+    <Field Name="CloseParenToken" Type="SyntaxToken" Optional="true">
       <Kind Name="CloseParenToken"/>
       <PropertyComment>
         <summary>

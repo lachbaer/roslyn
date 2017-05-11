@@ -41031,39 +41031,41 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return new LockStatementSyntax(SyntaxKind.LockStatement, lockKeyword, openParenToken, expression, closeParenToken, statement, this.context);
     }
 
-    public IfStatementSyntax IfStatement(SyntaxToken ifKeyword, SyntaxToken openParenToken, ExpressionSyntax condition, SyntaxToken closeParenToken, StatementSyntax statement, ElseClauseSyntax @else)
-    {
+        public IfStatementSyntax IfStatement(SyntaxToken ifKeyword, SyntaxToken openParenToken, ExpressionSyntax condition, SyntaxToken closeParenToken, StatementSyntax statement, ElseClauseSyntax @else)
+        {
 #if DEBUG
-      if (ifKeyword == null)
-        throw new ArgumentNullException(nameof(ifKeyword));
-      switch (ifKeyword.Kind)
-      {
-        case SyntaxKind.IfKeyword:
-          break;
-        default:
-          throw new ArgumentException("ifKeyword");
-      }
-      if (openParenToken == null)
-        throw new ArgumentNullException(nameof(openParenToken));
-      switch (openParenToken.Kind)
-      {
-        case SyntaxKind.OpenParenToken:
-          break;
-        default:
-          throw new ArgumentException("openParenToken");
-      }
-      if (condition == null)
+        if (ifKeyword == null)
+            throw new ArgumentNullException(nameof(ifKeyword));
+        switch (ifKeyword.Kind)
+        {
+            case SyntaxKind.IfKeyword:
+                break;
+            default:
+                throw new ArgumentException("ifKeyword");
+        }
+        if (openParenToken != null)
+        {
+            switch (openParenToken.Kind)
+            {
+                case SyntaxKind.OpenParenToken:
+                    break;
+                default:
+                    throw new ArgumentException("openParenToken");
+            }
+        }
+        if (condition == null)
         throw new ArgumentNullException(nameof(condition));
-      if (closeParenToken == null)
-        throw new ArgumentNullException(nameof(closeParenToken));
-      switch (closeParenToken.Kind)
-      {
-        case SyntaxKind.CloseParenToken:
-          break;
-        default:
-          throw new ArgumentException("closeParenToken");
-      }
-      if (statement == null)
+        if (closeParenToken != null)
+        {
+            switch (closeParenToken.Kind)
+            {
+                case SyntaxKind.CloseParenToken:
+                    break;
+                default:
+                    throw new ArgumentException("closeParenToken");
+            }
+        }
+        if (statement == null)
         throw new ArgumentNullException(nameof(statement));
 #endif
 

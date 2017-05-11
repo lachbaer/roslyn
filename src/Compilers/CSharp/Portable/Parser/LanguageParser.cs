@@ -7875,9 +7875,9 @@ tryAgain:
         {
             Debug.Assert(this.CurrentToken.Kind == SyntaxKind.IfKeyword);
             var @if = this.EatToken(SyntaxKind.IfKeyword);
-            var openParen = this.EatToken(SyntaxKind.OpenParenToken);
+            var openParen = this.EatOptionalToken(SyntaxKind.OpenBraceToken);
             var condition = this.ParseExpressionCore();
-            var closeParen = this.EatToken(SyntaxKind.CloseParenToken);
+            var closeParen = this.EatOptionalToken(SyntaxKind.CloseParenToken);
             var statement = this.ParseEmbeddedStatement(false);
             var elseClause = ParseElseClauseOpt();
 

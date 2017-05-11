@@ -546,6 +546,18 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
             }
         }
 
+        protected SyntaxToken EatOptionalToken(SyntaxKind kind)
+        {
+            var token = this.CurrentToken;
+            Debug.Assert(SyntaxFacts.IsAnyToken(kind));
+            if (token.Kind == kind)
+            {
+                return this.EatToken();
+            }
+
+            return null;
+        }
+
         protected SyntaxToken EatTokenWithPrejudice(SyntaxKind kind)
         {
             var token = this.CurrentToken;
