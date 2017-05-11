@@ -7582,12 +7582,12 @@ tryAgain:
             var @do = this.EatToken(SyntaxKind.DoKeyword);
             var statement = this.ParseEmbeddedStatement(false);
             var @while = this.EatToken(SyntaxKind.WhileKeyword);
-            var openParen = this.EatToken(SyntaxKind.OpenParenToken);
+            var openParen = this.EatOptionalToken(SyntaxKind.OpenParenToken);
             var saveTerm = _termState;
             _termState |= TerminatorState.IsEndOfDoWhileExpression;
             var expression = this.ParseExpressionCore();
             _termState = saveTerm;
-            var closeParen = this.EatToken(SyntaxKind.CloseParenToken);
+            var closeParen = this.EatOptionalToken(SyntaxKind.CloseParenToken);
             var semicolon = this.EatToken(SyntaxKind.SemicolonToken);
             return _syntaxFactory.DoStatement(@do, statement, @while, openParen, expression, closeParen, semicolon);
         }
@@ -7782,7 +7782,7 @@ tryAgain:
                 @foreach = this.EatToken(SyntaxKind.ForEachKeyword);
             }
 
-            var openParen = this.EatToken(SyntaxKind.OpenParenToken);
+            var openParen = this.EatOptionalToken(SyntaxKind.OpenParenToken);
             var variable = ParseExpressionOrDeclaration(ParseTypeMode.Normal, feature: MessageID.IDS_FeatureTuples, permitTupleDesignation: true);
             var @in = this.EatToken(SyntaxKind.InKeyword, ErrorCode.ERR_InExpected);
             if (!IsValidForeachVariable(variable))
@@ -7791,7 +7791,7 @@ tryAgain:
             }
 
             var expression = this.ParseExpressionCore();
-            var closeParen = this.EatToken(SyntaxKind.CloseParenToken);
+            var closeParen = this.EatOptionalToken(SyntaxKind.CloseParenToken);
             var statement = this.ParseEmbeddedStatement(true);
 
             var decl = variable as DeclarationExpressionSyntax;
@@ -7959,9 +7959,9 @@ tryAgain:
         {
             Debug.Assert(this.CurrentToken.Kind == SyntaxKind.SwitchKeyword);
             var @switch = this.EatToken(SyntaxKind.SwitchKeyword);
-            var openParen = this.EatToken(SyntaxKind.OpenParenToken);
+            var openParen = this.EatOptionalToken(SyntaxKind.OpenParenToken);
             var expression = this.ParseExpressionCore();
-            var closeParen = this.EatToken(SyntaxKind.CloseParenToken);
+            var closeParen = this.EatOptionalToken(SyntaxKind.CloseParenToken);
             var openBrace = this.EatToken(SyntaxKind.OpenBraceToken);
 
             if (this.CurrentToken.Kind == SyntaxKind.CloseBraceToken)
@@ -8204,9 +8204,9 @@ tryAgain:
         {
             Debug.Assert(this.CurrentToken.Kind == SyntaxKind.WhileKeyword);
             var @while = this.EatToken(SyntaxKind.WhileKeyword);
-            var openParen = this.EatToken(SyntaxKind.OpenParenToken);
+            var openParen = this.EatOptionalToken(SyntaxKind.OpenParenToken);
             var condition = this.ParseExpressionCore();
-            var closeParen = this.EatToken(SyntaxKind.CloseParenToken);
+            var closeParen = this.EatOptionalToken(SyntaxKind.CloseParenToken);
             var statement = this.ParseEmbeddedStatement(true);
             return _syntaxFactory.WhileStatement(@while, openParen, condition, closeParen, statement);
         }

@@ -7158,6 +7158,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (openParenToken.Kind())
       {
         case SyntaxKind.OpenParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("openParenToken");
@@ -7167,6 +7168,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (closeParenToken.Kind())
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
@@ -7180,7 +7182,7 @@ namespace Microsoft.CodeAnalysis.CSharp
     /// <summary>Creates a new WhileStatementSyntax instance.</summary>
     public static WhileStatementSyntax WhileStatement(ExpressionSyntax condition, StatementSyntax statement)
     {
-      return SyntaxFactory.WhileStatement(SyntaxFactory.Token(SyntaxKind.WhileKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), condition, SyntaxFactory.Token(SyntaxKind.CloseParenToken), statement);
+      return SyntaxFactory.WhileStatement(SyntaxFactory.Token(SyntaxKind.WhileKeyword), default(SyntaxToken), condition, default(SyntaxToken), statement);
     }
 
     /// <summary>Creates a new DoStatementSyntax instance.</summary>
@@ -7205,6 +7207,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (openParenToken.Kind())
       {
         case SyntaxKind.OpenParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("openParenToken");
@@ -7221,6 +7224,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (semicolonToken.Kind())
       {
         case SyntaxKind.SemicolonToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("semicolonToken");
@@ -7232,7 +7236,7 @@ namespace Microsoft.CodeAnalysis.CSharp
     /// <summary>Creates a new DoStatementSyntax instance.</summary>
     public static DoStatementSyntax DoStatement(StatementSyntax statement, ExpressionSyntax condition)
     {
-      return SyntaxFactory.DoStatement(SyntaxFactory.Token(SyntaxKind.DoKeyword), statement, SyntaxFactory.Token(SyntaxKind.WhileKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), condition, SyntaxFactory.Token(SyntaxKind.CloseParenToken), SyntaxFactory.Token(SyntaxKind.SemicolonToken));
+      return SyntaxFactory.DoStatement(SyntaxFactory.Token(SyntaxKind.DoKeyword), statement, SyntaxFactory.Token(SyntaxKind.WhileKeyword), default(SyntaxToken), condition, SyntaxFactory.Token(SyntaxKind.CloseParenToken), default(SyntaxToken));
     }
 
     /// <summary>Creates a new ForStatementSyntax instance.</summary>
@@ -7304,6 +7308,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (openParenToken.Kind())
       {
         case SyntaxKind.OpenParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("openParenToken");
@@ -7329,6 +7334,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (closeParenToken.Kind())
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
@@ -7342,13 +7348,13 @@ namespace Microsoft.CodeAnalysis.CSharp
     /// <summary>Creates a new ForEachStatementSyntax instance.</summary>
     public static ForEachStatementSyntax ForEachStatement(TypeSyntax type, SyntaxToken identifier, ExpressionSyntax expression, StatementSyntax statement)
     {
-      return SyntaxFactory.ForEachStatement(SyntaxFactory.Token(SyntaxKind.ForEachKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), type, identifier, SyntaxFactory.Token(SyntaxKind.InKeyword), expression, SyntaxFactory.Token(SyntaxKind.CloseParenToken), statement);
+      return SyntaxFactory.ForEachStatement(SyntaxFactory.Token(SyntaxKind.ForEachKeyword), default(SyntaxToken), type, identifier, SyntaxFactory.Token(SyntaxKind.InKeyword), expression, default(SyntaxToken), statement);
     }
 
     /// <summary>Creates a new ForEachStatementSyntax instance.</summary>
     public static ForEachStatementSyntax ForEachStatement(TypeSyntax type, string identifier, ExpressionSyntax expression, StatementSyntax statement)
     {
-      return SyntaxFactory.ForEachStatement(SyntaxFactory.Token(SyntaxKind.ForEachKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), type, SyntaxFactory.Identifier(identifier), SyntaxFactory.Token(SyntaxKind.InKeyword), expression, SyntaxFactory.Token(SyntaxKind.CloseParenToken), statement);
+      return SyntaxFactory.ForEachStatement(SyntaxFactory.Token(SyntaxKind.ForEachKeyword), default(SyntaxToken), type, SyntaxFactory.Identifier(identifier), SyntaxFactory.Token(SyntaxKind.InKeyword), expression, default(SyntaxToken), statement);
     }
 
     /// <summary>Creates a new ForEachVariableStatementSyntax instance.</summary>
@@ -7364,6 +7370,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (openParenToken.Kind())
       {
         case SyntaxKind.OpenParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("openParenToken");
@@ -7382,6 +7389,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (closeParenToken.Kind())
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
@@ -7395,7 +7403,7 @@ namespace Microsoft.CodeAnalysis.CSharp
     /// <summary>Creates a new ForEachVariableStatementSyntax instance.</summary>
     public static ForEachVariableStatementSyntax ForEachVariableStatement(ExpressionSyntax variable, ExpressionSyntax expression, StatementSyntax statement)
     {
-      return SyntaxFactory.ForEachVariableStatement(SyntaxFactory.Token(SyntaxKind.ForEachKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), variable, SyntaxFactory.Token(SyntaxKind.InKeyword), expression, SyntaxFactory.Token(SyntaxKind.CloseParenToken), statement);
+      return SyntaxFactory.ForEachVariableStatement(SyntaxFactory.Token(SyntaxKind.ForEachKeyword), default(SyntaxToken), variable, SyntaxFactory.Token(SyntaxKind.InKeyword), expression, default(SyntaxToken), statement);
     }
 
     /// <summary>Creates a new UsingStatementSyntax instance.</summary>
@@ -7595,6 +7603,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (openParenToken.Kind())
       {
         case SyntaxKind.OpenParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("openParenToken");
@@ -7604,6 +7613,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (closeParenToken.Kind())
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
@@ -7617,13 +7627,13 @@ namespace Microsoft.CodeAnalysis.CSharp
     /// <summary>Creates a new IfStatementSyntax instance.</summary>
     public static IfStatementSyntax IfStatement(ExpressionSyntax condition, StatementSyntax statement, ElseClauseSyntax @else)
     {
-      return SyntaxFactory.IfStatement(SyntaxFactory.Token(SyntaxKind.IfKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), condition, SyntaxFactory.Token(SyntaxKind.CloseParenToken), statement, @else);
+      return SyntaxFactory.IfStatement(SyntaxFactory.Token(SyntaxKind.IfKeyword), default(SyntaxToken), condition, default(SyntaxToken), statement, @else);
     }
 
     /// <summary>Creates a new IfStatementSyntax instance.</summary>
     public static IfStatementSyntax IfStatement(ExpressionSyntax condition, StatementSyntax statement)
     {
-      return SyntaxFactory.IfStatement(SyntaxFactory.Token(SyntaxKind.IfKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), condition, SyntaxFactory.Token(SyntaxKind.CloseParenToken), statement, default(ElseClauseSyntax));
+      return SyntaxFactory.IfStatement(SyntaxFactory.Token(SyntaxKind.IfKeyword), default(SyntaxToken), condition, default(SyntaxToken), statement, default(ElseClauseSyntax));
     }
 
     /// <summary>Creates a new ElseClauseSyntax instance.</summary>
@@ -7661,6 +7671,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (openParenToken.Kind())
       {
         case SyntaxKind.OpenParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("openParenToken");
@@ -7670,6 +7681,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (closeParenToken.Kind())
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
@@ -7695,13 +7707,13 @@ namespace Microsoft.CodeAnalysis.CSharp
     /// <summary>Creates a new SwitchStatementSyntax instance.</summary>
     public static SwitchStatementSyntax SwitchStatement(ExpressionSyntax expression, SyntaxList<SwitchSectionSyntax> sections)
     {
-      return SyntaxFactory.SwitchStatement(SyntaxFactory.Token(SyntaxKind.SwitchKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), expression, SyntaxFactory.Token(SyntaxKind.CloseParenToken), SyntaxFactory.Token(SyntaxKind.OpenBraceToken), sections, SyntaxFactory.Token(SyntaxKind.CloseBraceToken));
+      return SyntaxFactory.SwitchStatement(SyntaxFactory.Token(SyntaxKind.SwitchKeyword), default(SyntaxToken), expression, default(SyntaxToken), SyntaxFactory.Token(SyntaxKind.OpenBraceToken), sections, SyntaxFactory.Token(SyntaxKind.CloseBraceToken));
     }
 
     /// <summary>Creates a new SwitchStatementSyntax instance.</summary>
     public static SwitchStatementSyntax SwitchStatement(ExpressionSyntax expression)
     {
-      return SyntaxFactory.SwitchStatement(SyntaxFactory.Token(SyntaxKind.SwitchKeyword), SyntaxFactory.Token(SyntaxKind.OpenParenToken), expression, SyntaxFactory.Token(SyntaxKind.CloseParenToken), SyntaxFactory.Token(SyntaxKind.OpenBraceToken), default(SyntaxList<SwitchSectionSyntax>), SyntaxFactory.Token(SyntaxKind.CloseBraceToken));
+      return SyntaxFactory.SwitchStatement(SyntaxFactory.Token(SyntaxKind.SwitchKeyword), default(SyntaxToken), expression, default(SyntaxToken), SyntaxFactory.Token(SyntaxKind.OpenBraceToken), default(SyntaxList<SwitchSectionSyntax>), SyntaxFactory.Token(SyntaxKind.CloseBraceToken));
     }
 
     /// <summary>Creates a new SwitchSectionSyntax instance.</summary>
