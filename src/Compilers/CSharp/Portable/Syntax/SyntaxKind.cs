@@ -157,6 +157,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         OperatorKeyword = 8382,
         ExplicitKeyword = 8383,
         ImplicitKeyword = 8384,
+        IsNotKeyword = 8389,
 
         // contextual keywords
         YieldKeyword = 8405,
@@ -357,6 +358,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         SimpleMemberAccessExpression = 8689,  // dot access:   a.b
         PointerMemberAccessExpression = 8690,  // arrow access:   a->b
         ConditionalAccessExpression = 8691,    // question mark access:   a?.b , a?[1]
+        IsNotExpression = 8699,
 
         // binding expressions
         MemberBindingExpression = 8707,

@@ -5329,6 +5329,7 @@ tryAgain:
                 case SyntaxKind.GreaterThanToken when this.PeekToken(1).Kind != SyntaxKind.GreaterThanToken: // not >>
                                                          // e.g. `e is A<B> > C`
                 case SyntaxKind.IsKeyword:               // e.g. `e is A<B> is bool`
+                case SyntaxKind.IsNotKeyword:               // e.g. `e is A<B> isnot bool`
                 case SyntaxKind.AsKeyword:               // e.g. `e is A<B> as bool`
                     // These tokens are added to 7.5.4.2 Grammar Ambiguities in C#7 for a possible type following the `is` keyword
                     return ((options & NameOptions.AfterIs) != 0)
@@ -10194,6 +10195,7 @@ tryAgain:
             {
                 case SyntaxKind.AsKeyword:
                 case SyntaxKind.IsKeyword:
+                case SyntaxKind.IsNotKeyword:
                 case SyntaxKind.SemicolonToken:
                 case SyntaxKind.CloseParenToken:
                 case SyntaxKind.CloseBracketToken:

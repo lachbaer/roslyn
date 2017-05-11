@@ -783,6 +783,25 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
     }
 
+    internal partial class BoundIsNotOperator : IIsTypeExpression
+    {
+        IOperation IIsTypeExpression.Operand => this.Operand;
+
+        ITypeSymbol IIsTypeExpression.IsType => this.TargetType.Type;
+
+        protected override OperationKind ExpressionKind => OperationKind.IsTypeExpression;
+
+        public override void Accept(OperationVisitor visitor)
+        {
+            visitor.VisitIsTypeExpression(this);
+        }
+
+        public override TResult Accept<TArgument, TResult>(OperationVisitor<TArgument, TResult> visitor, TArgument argument)
+        {
+            return visitor.VisitIsTypeExpression(this, argument);
+        }
+    }
+
     internal partial class BoundSizeOfOperator : ISizeOfExpression
     {
         ITypeSymbol ITypeOperationExpression.TypeOperand => this.SourceType.Type;

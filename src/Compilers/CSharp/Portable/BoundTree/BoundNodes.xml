@@ -534,6 +534,15 @@
     <Field Name="Conversion" Type="Conversion"/>
   </Node>
 
+  <Node Name="BoundIsNotOperator" Base="BoundExpression">
+    <!-- Non-null type is required for this node kind -->
+    <Field Name="Type" Type="TypeSymbol" Override="true" Null="disallow"/>
+
+    <Field Name="Operand" Type="BoundExpression"/>
+    <Field Name="TargetType" Type="BoundTypeExpression"/>
+    <Field Name="Conversion" Type="Conversion"/>
+  </Node>
+
   <Node Name="BoundAsOperator" Base="BoundExpression">
     <!-- Non-null type is required for this node kind -->
     <Field Name="Type" Type="TypeSymbol" Override="true" Null="disallow"/>

@@ -578,6 +578,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.CoalesceExpression;
                 case SyntaxKind.IsKeyword:
                     return SyntaxKind.IsExpression;
+                case SyntaxKind.IsNotKeyword:
+                    return SyntaxKind.IsNotExpression;
                 case SyntaxKind.AsKeyword:
                     return SyntaxKind.AsExpression;
                 case SyntaxKind.BarToken:
@@ -909,6 +911,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.InKeyword;
                 case "is":
                     return SyntaxKind.IsKeyword;
+                case "isnot":
+                    return SyntaxKind.IsNotKeyword;
                 case "as":
                     return SyntaxKind.AsKeyword;
                 case "params":
@@ -1448,6 +1452,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return "in";
                 case SyntaxKind.IsKeyword:
                     return "is";
+                case SyntaxKind.IsNotKeyword:
+                    return "isnot";
                 case SyntaxKind.AsKeyword:
                     return "as";
                 case SyntaxKind.ParamsKeyword:

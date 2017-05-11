@@ -61,6 +61,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         FieldInfo,
         DefaultExpression,
         IsOperator,
+        IsNotOperator,
         AsOperator,
         SizeOfOperator,
         Conversion,
@@ -1830,6 +1831,45 @@ namespace Microsoft.CodeAnalysis.CSharp
             if (operand != this.Operand || targetType != this.TargetType || conversion != this.Conversion || type != this.Type)
             {
                 var result = new BoundIsOperator(this.Syntax, operand, targetType, conversion, type, this.HasErrors);
+                result.WasCompilerGenerated = this.WasCompilerGenerated;
+                return result;
+            }
+            return this;
+        }
+    }
+
+    internal sealed partial class BoundIsNotOperator : BoundExpression
+    {
+        public BoundIsNotOperator(SyntaxNode syntax, BoundExpression operand, BoundTypeExpression targetType, Conversion conversion, TypeSymbol type, bool hasErrors = false)
+            : base(BoundKind.IsNotOperator, syntax, type, hasErrors || operand.HasErrors() || targetType.HasErrors())
+        {
+
+            Debug.Assert(operand != null, "Field 'operand' cannot be null (use Null=\"allow\" in BoundNodes.xml to remove this check)");
+            Debug.Assert(targetType != null, "Field 'targetType' cannot be null (use Null=\"allow\" in BoundNodes.xml to remove this check)");
+            Debug.Assert(type != null, "Field 'type' cannot be null (use Null=\"allow\" in BoundNodes.xml to remove this check)");
+
+            this.Operand = operand;
+            this.TargetType = targetType;
+            this.Conversion = conversion;
+        }
+
+
+        public BoundExpression Operand { get; }
+
+        public BoundTypeExpression TargetType { get; }
+
+        public Conversion Conversion { get; }
+
+        public override BoundNode Accept(BoundTreeVisitor visitor)
+        {
+            return visitor.VisitIsNotOperator(this);
+        }
+
+        public BoundIsNotOperator Update(BoundExpression operand, BoundTypeExpression targetType, Conversion conversion, TypeSymbol type)
+        {
+            if (operand != this.Operand || targetType != this.TargetType || conversion != this.Conversion || type != this.Type)
+            {
+                var result = new BoundIsNotOperator(this.Syntax, operand, targetType, conversion, type, this.HasErrors);
                 result.WasCompilerGenerated = this.WasCompilerGenerated;
                 return result;
             }
@@ -6157,6 +6197,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return VisitDefaultExpression(node as BoundDefaultExpression, arg);
                 case BoundKind.IsOperator: 
                     return VisitIsOperator(node as BoundIsOperator, arg);
+                case BoundKind.IsNotOperator: 
+                    return VisitIsNotOperator(node as BoundIsNotOperator, arg);
                 case BoundKind.AsOperator: 
                     return VisitAsOperator(node as BoundAsOperator, arg);
                 case BoundKind.SizeOfOperator: 
@@ -6542,6 +6584,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             return this.DefaultVisit(node, arg);
         }
         public virtual R VisitIsOperator(BoundIsOperator node, A arg)
+        {
+            return this.DefaultVisit(node, arg);
+        }
+        public virtual R VisitIsNotOperator(BoundIsNotOperator node, A arg)
         {
             return this.DefaultVisit(node, arg);
         }
@@ -7142,6 +7188,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             return this.DefaultVisit(node);
         }
         public virtual BoundNode VisitIsOperator(BoundIsOperator node)
+        {
+            return this.DefaultVisit(node);
+        }
+        public virtual BoundNode VisitIsNotOperator(BoundIsNotOperator node)
         {
             return this.DefaultVisit(node);
         }
@@ -7779,6 +7829,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             return null;
         }
         public override BoundNode VisitIsOperator(BoundIsOperator node)
+        {
+            this.Visit(node.Operand);
+            this.Visit(node.TargetType);
+            return null;
+        }
+        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
         {
             this.Visit(node.Operand);
             this.Visit(node.TargetType);
@@ -8585,6 +8641,13 @@ namespace Microsoft.CodeAnalysis.CSharp
             return node.Update(node.ConstantValueOpt, type);
         }
         public override BoundNode VisitIsOperator(BoundIsOperator node)
+        {
+            BoundExpression operand = (BoundExpression)this.Visit(node.Operand);
+            BoundTypeExpression targetType = (BoundTypeExpression)this.Visit(node.TargetType);
+            TypeSymbol type = this.VisitType(node.Type);
+            return node.Update(operand, targetType, node.Conversion, type);
+        }
+        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
         {
             BoundExpression operand = (BoundExpression)this.Visit(node.Operand);
             BoundTypeExpression targetType = (BoundTypeExpression)this.Visit(node.TargetType);
@@ -9642,6 +9705,17 @@ namespace Microsoft.CodeAnalysis.CSharp
         public override TreeDumperNode VisitIsOperator(BoundIsOperator node, object arg)
         {
             return new TreeDumperNode("isOperator", null, new TreeDumperNode[]
+            {
+                new TreeDumperNode("operand", null, new TreeDumperNode[] { Visit(node.Operand, null) }),
+                new TreeDumperNode("targetType", null, new TreeDumperNode[] { Visit(node.TargetType, null) }),
+                new TreeDumperNode("conversion", node.Conversion, null),
+                new TreeDumperNode("type", node.Type, null)
+            }
+            );
+        }
+        public override TreeDumperNode VisitIsNotOperator(BoundIsNotOperator node, object arg)
+        {
+            return new TreeDumperNode("isNotOperator", null, new TreeDumperNode[]
             {
                 new TreeDumperNode("operand", null, new TreeDumperNode[] { Visit(node.Operand, null) }),
                 new TreeDumperNode("targetType", null, new TreeDumperNode[] { Visit(node.TargetType, null) }),

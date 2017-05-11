@@ -2556,7 +2556,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return false;
         }
 
-        private bool IsOperandErrors(CSharpSyntaxNode node, ref BoundExpression operand, DiagnosticBag diagnostics)
+        private bool IsOperandErrors(CSharpSyntaxNode node, ref BoundExpression operand, DiagnosticBag diagnostics, bool isIsNotOperator = false)
         {
             switch (operand.Kind)
             {
@@ -2578,7 +2578,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                         if (!operand.HasAnyErrors)
                         {
                             // Operator 'is' cannot be applied to operand of type '(int, <null>)'
-                            Error(diagnostics, ErrorCode.ERR_BadUnaryOp, node, SyntaxFacts.GetText(SyntaxKind.IsKeyword), operand.Display);
+                            Error(diagnostics, ErrorCode.ERR_BadUnaryOp, node, 
+                                SyntaxFacts.GetText(isIsNotOperator ? SyntaxKind.IsNotKeyword : SyntaxKind.IsKeyword), operand.Display);
                         }
 
                         return true;
@@ -2716,6 +2717,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             diagnostics.Add(node, useSiteDiagnostics);
             ReportIsOperatorConstantWarnings(node, diagnostics, operandType, targetType, conversion.Kind, operand.ConstantValue);
             return new BoundIsOperator(node, operand, typeExpression, conversion, resultType);
+        }
+
+        private BoundExpression BindIsNotOperator(BinaryExpressionSyntax node, DiagnosticBag diagnostics)
+        {
+            throw new NotImplementedException("//*EIK");
         }
 
         private static void ReportIsOperatorConstantWarnings(
