@@ -8809,6 +8809,7 @@ tryAgain:
                 case SyntaxKind.GreaterThanExpression:
                 case SyntaxKind.GreaterThanOrEqualExpression:
                 case SyntaxKind.IsExpression:
+                case SyntaxKind.IsNotExpression:
                 case SyntaxKind.AsExpression:
                 case SyntaxKind.IsPatternExpression:
                     return Precedence.Relational;
@@ -9076,6 +9077,10 @@ tryAgain:
                 {
                     leftOperand = ParseIsExpression(leftOperand, opToken);
                 }
+                else if (opKind == SyntaxKind.IsNotExpression)
+                {
+                    leftOperand = ParseIsNotExpression(leftOperand, opToken);
+                }
                 else
                 {
                     if (isAssignmentOperator)
@@ -9150,6 +9155,23 @@ tryAgain:
             {
                 Debug.Assert(node is TypeSyntax);
                 return _syntaxFactory.BinaryExpression(SyntaxKind.IsExpression, leftOperand, opToken, (TypeSyntax)node);
+            }
+        }
+
+        private ExpressionSyntax ParseIsNotExpression(ExpressionSyntax leftOperand, SyntaxToken opToken)
+        {
+            var node = this.ParseTypeOrPatternForIsOperator();
+            if (node is PatternSyntax)
+            {
+                var result = _syntaxFactory.IsPatternExpression(leftOperand, opToken, (PatternSyntax)node);
+                return this.AddError(result, ErrorCode.ERR_InvalidExprTerm, this.CurrentToken.Text);
+
+                //return CheckFeatureAvailability(result, MessageID.IDS_FeaturePatternMatching);
+            }
+            else
+            {
+                Debug.Assert(node is TypeSyntax);
+                return _syntaxFactory.BinaryExpression(SyntaxKind.IsNotExpression, leftOperand, opToken, (TypeSyntax)node);
             }
         }
 
