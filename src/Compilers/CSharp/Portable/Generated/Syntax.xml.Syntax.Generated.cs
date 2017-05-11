@@ -9022,19 +9022,19 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
 
     public SyntaxToken CloseParenToken 
     {
-      get { return new SyntaxToken(this, ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.DoStatementSyntax)this.Green).closeParenToken, this.GetChildPosition(5), this.GetChildIndex(5)); }
+        get
+        {
+            var slot = ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.DoStatementSyntax)this.Green).closeParenToken;
+            if (slot != null)
+                return new SyntaxToken(this, slot, this.GetChildPosition(5), this.GetChildIndex(5));
+
+            return default(SyntaxToken);
+        }
     }
 
     public SyntaxToken SemicolonToken 
     {
-        get
-        {
-            var slot = ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.DoStatementSyntax)this.Green).semicolonToken;
-            if (slot != null)
-                return new SyntaxToken(this, slot, this.GetChildPosition(6), this.GetChildIndex(6));
-
-            return default(SyntaxToken);
-        }
+      get { return new SyntaxToken(this, ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.DoStatementSyntax)this.Green).semicolonToken, this.GetChildPosition(6), this.GetChildIndex(6)); }
     }
 
     internal override SyntaxNode GetNodeSlot(int index)

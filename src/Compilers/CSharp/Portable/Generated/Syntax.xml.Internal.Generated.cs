@@ -14509,13 +14509,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         }
         this.AdjustFlagsAndWidth(condition);
         this.condition = condition;
-        this.AdjustFlagsAndWidth(closeParenToken);
-        this.closeParenToken = closeParenToken;
-        if (semicolonToken != null)
+        if (closeParenToken != null)
         {
-            this.AdjustFlagsAndWidth(semicolonToken);
-            this.semicolonToken = semicolonToken;
+            this.AdjustFlagsAndWidth(closeParenToken);
+            this.closeParenToken = closeParenToken;
         }
+        this.AdjustFlagsAndWidth(semicolonToken);
+        this.semicolonToken = semicolonToken;
     }
 
 
@@ -14537,13 +14537,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         }
         this.AdjustFlagsAndWidth(condition);
         this.condition = condition;
-        this.AdjustFlagsAndWidth(closeParenToken);
-        this.closeParenToken = closeParenToken;
-        if (semicolonToken != null)
+        if (closeParenToken != null)
         {
-            this.AdjustFlagsAndWidth(semicolonToken);
-            this.semicolonToken = semicolonToken;
+            this.AdjustFlagsAndWidth(closeParenToken);
+            this.closeParenToken = closeParenToken;
         }
+        this.AdjustFlagsAndWidth(semicolonToken);
+        this.semicolonToken = semicolonToken;
     }
 
 
@@ -14564,13 +14564,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         }
         this.AdjustFlagsAndWidth(condition);
         this.condition = condition;
-        this.AdjustFlagsAndWidth(closeParenToken);
-        this.closeParenToken = closeParenToken;
-        if (semicolonToken != null)
+        if (closeParenToken != null)
         {
-            this.AdjustFlagsAndWidth(semicolonToken);
-            this.semicolonToken = semicolonToken;
+            this.AdjustFlagsAndWidth(closeParenToken);
+            this.closeParenToken = closeParenToken;
         }
+        this.AdjustFlagsAndWidth(semicolonToken);
+        this.semicolonToken = semicolonToken;
     }
 
     public SyntaxToken DoKeyword { get { return this.doKeyword; } }
@@ -40776,25 +40776,25 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       }
       if (condition == null)
         throw new ArgumentNullException(nameof(condition));
-      if (closeParenToken == null)
-        throw new ArgumentNullException(nameof(closeParenToken));
+      if (closeParenToken != null)
+      {
       switch (closeParenToken.Kind)
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
       }
-      if (semicolonToken != null)
-      {
+      }
+      if (semicolonToken == null)
+        throw new ArgumentNullException(nameof(semicolonToken));
       switch (semicolonToken.Kind)
       {
         case SyntaxKind.SemicolonToken:
-        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("semicolonToken");
-      }
       }
 #endif
 
@@ -47713,25 +47713,25 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       }
       if (condition == null)
         throw new ArgumentNullException(nameof(condition));
-      if (closeParenToken == null)
-        throw new ArgumentNullException(nameof(closeParenToken));
+      if (closeParenToken != null)
+      {
       switch (closeParenToken.Kind)
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
       }
-      if (semicolonToken != null)
-      {
+      }
+      if (semicolonToken == null)
+        throw new ArgumentNullException(nameof(semicolonToken));
       switch (semicolonToken.Kind)
       {
         case SyntaxKind.SemicolonToken:
-        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("semicolonToken");
-      }
       }
 #endif
 

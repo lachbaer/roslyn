@@ -7217,6 +7217,7 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (closeParenToken.Kind())
       {
         case SyntaxKind.CloseParenToken:
+        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("closeParenToken");
@@ -7224,7 +7225,6 @@ namespace Microsoft.CodeAnalysis.CSharp
       switch (semicolonToken.Kind())
       {
         case SyntaxKind.SemicolonToken:
-        case SyntaxKind.None:
           break;
         default:
           throw new ArgumentException("semicolonToken");
@@ -7236,7 +7236,7 @@ namespace Microsoft.CodeAnalysis.CSharp
     /// <summary>Creates a new DoStatementSyntax instance.</summary>
     public static DoStatementSyntax DoStatement(StatementSyntax statement, ExpressionSyntax condition)
     {
-      return SyntaxFactory.DoStatement(SyntaxFactory.Token(SyntaxKind.DoKeyword), statement, SyntaxFactory.Token(SyntaxKind.WhileKeyword), default(SyntaxToken), condition, SyntaxFactory.Token(SyntaxKind.CloseParenToken), default(SyntaxToken));
+      return SyntaxFactory.DoStatement(SyntaxFactory.Token(SyntaxKind.DoKeyword), statement, SyntaxFactory.Token(SyntaxKind.WhileKeyword), default(SyntaxToken), condition, default(SyntaxToken), SyntaxFactory.Token(SyntaxKind.SemicolonToken));
     }
 
     /// <summary>Creates a new ForStatementSyntax instance.</summary>
