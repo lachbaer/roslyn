@@ -1573,6 +1573,11 @@
     <Field Name="Pattern" Type="BoundPattern" Null="disallow"/>
   </Node>
 
+  <Node Name="BoundIsnotPatternExpression" Base="BoundExpression">
+    <Field Name="Expression" Type="BoundExpression" Null="disallow"/>
+    <Field Name="Pattern" Type="BoundPattern" Null="disallow"/>
+  </Node>
+
   <AbstractNode Name="BoundPattern" Base="BoundNode">
     <!-- CONSIDER: we might benefit from recording the input (matched value) type in the bound pattern. -->
   </AbstractNode>

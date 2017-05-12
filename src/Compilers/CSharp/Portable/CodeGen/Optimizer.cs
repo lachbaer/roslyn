@@ -1217,6 +1217,12 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
             return node;
         }
 
+        public override BoundNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node)
+        {
+            Debug.Assert(false, "we should not have isnot-pattern expressions at this stage");
+            return node;
+        }
+
         public override BoundNode VisitGotoStatement(BoundGotoStatement node)
         {
             Debug.Assert(node.CaseExpressionOpt == null, "we should not have label expressions at this stage");

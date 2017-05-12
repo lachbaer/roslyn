@@ -941,6 +941,13 @@ namespace Microsoft.CodeAnalysis.CSharp
             return null;
         }
 
+        public override BoundNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node)
+        {
+            VisitRvalue(node.Expression);
+            VisitPattern(node.Expression, node.Pattern);
+            return null;
+        }
+
         public virtual void VisitPattern(BoundExpression expression, BoundPattern pattern)
         {
             Split();

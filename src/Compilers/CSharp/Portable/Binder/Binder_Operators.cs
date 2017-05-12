@@ -2752,7 +2752,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 {
                     isTypeDiagnostics.Free();
                     diagnostics.AddRangeAndFree(isPatternDiagnostics);
-                    return new BoundIsPatternExpression(node, operand, boundConstantPattern, resultType, operandHasErrors);
+                    return new BoundIsnotPatternExpression(node, operand, boundConstantPattern, resultType, operandHasErrors);
                 }
 
                 isPatternDiagnostics.Free();

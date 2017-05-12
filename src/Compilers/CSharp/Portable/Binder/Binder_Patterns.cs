@@ -33,8 +33,24 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
 
         private BoundExpression BindIsnotPatternExpression(IsPatternExpressionSyntax node, DiagnosticBag diagnostics)
-        {
-            throw new System.NotImplementedException("//*EIK");
+        {   //*EIK audit this!
+            var expression = BindValue(node.Expression, diagnostics, BindValueKind.RValue);
+            var hasErrors = IsOperandErrors(node, ref expression, diagnostics);
+            var expressionType = expression.Type;
+            if ((object)expressionType == null)
+            {
+                expressionType = CreateErrorType();
+                if (!hasErrors)
+                {
+                    // value expected
+                    diagnostics.Add(ErrorCode.ERR_BadIsPatternExpression, node.Expression.Location, expression.Display);
+                    hasErrors = true;
+                }
+            }
+
+            var pattern = BindPattern(node.Pattern, expression, expressionType, hasErrors, diagnostics);
+            return new BoundIsnotPatternExpression(
+                node, expression, pattern, GetSpecialType(SpecialType.System_Boolean, diagnostics, node), hasErrors);
         }
 
         internal BoundPattern BindPattern(

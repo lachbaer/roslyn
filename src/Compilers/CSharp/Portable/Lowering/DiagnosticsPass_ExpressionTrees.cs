@@ -682,6 +682,16 @@ namespace Microsoft.CodeAnalysis.CSharp
             return base.VisitIsPatternExpression(node);
         }
 
+        public override BoundNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node)
+        {
+            if (_inExpressionLambda)
+            {
+                Error(ErrorCode.ERR_ExpressionTreeContainsIsMatch, node);
+            }
+
+            return base.VisitIsnotPatternExpression(node);
+        }
+
         public override BoundNode VisitConvertedTupleLiteral(BoundConvertedTupleLiteral node)
         {
             if (_inExpressionLambda)

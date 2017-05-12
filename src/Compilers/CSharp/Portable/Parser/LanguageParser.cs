@@ -3100,6 +3100,7 @@ parse_member_name:;
             // if the operator is invalid, then switch it to plus (which will work either way) so that
             // we can finish building the tree
             if (!(opKind == SyntaxKind.IsKeyword ||
+                  opKind == SyntaxKind.IsnotKeyword ||
                   SyntaxFacts.IsOverloadableUnaryOperator(opKind) ||
                   SyntaxFacts.IsOverloadableBinaryOperator(opKind)))
             {

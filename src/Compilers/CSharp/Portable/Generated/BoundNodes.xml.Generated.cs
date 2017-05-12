@@ -162,6 +162,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         InterpolatedString,
         StringInsert,
         IsPatternExpression,
+        IsnotPatternExpression,
         DeclarationPattern,
         ConstantPattern,
         WildcardPattern,
@@ -5841,6 +5842,41 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
     }
 
+    internal sealed partial class BoundIsnotPatternExpression : BoundExpression
+    {
+        public BoundIsnotPatternExpression(SyntaxNode syntax, BoundExpression expression, BoundPattern pattern, TypeSymbol type, bool hasErrors = false)
+            : base(BoundKind.IsnotPatternExpression, syntax, type, hasErrors || expression.HasErrors() || pattern.HasErrors())
+        {
+
+            Debug.Assert(expression != null, "Field 'expression' cannot be null (use Null=\"allow\" in BoundNodes.xml to remove this check)");
+            Debug.Assert(pattern != null, "Field 'pattern' cannot be null (use Null=\"allow\" in BoundNodes.xml to remove this check)");
+
+            this.Expression = expression;
+            this.Pattern = pattern;
+        }
+
+
+        public BoundExpression Expression { get; }
+
+        public BoundPattern Pattern { get; }
+
+        public override BoundNode Accept(BoundTreeVisitor visitor)
+        {
+            return visitor.VisitIsnotPatternExpression(this);
+        }
+
+        public BoundIsnotPatternExpression Update(BoundExpression expression, BoundPattern pattern, TypeSymbol type)
+        {
+            if (expression != this.Expression || pattern != this.Pattern || type != this.Type)
+            {
+                var result = new BoundIsnotPatternExpression(this.Syntax, expression, pattern, type, this.HasErrors);
+                result.WasCompilerGenerated = this.WasCompilerGenerated;
+                return result;
+            }
+            return this;
+        }
+    }
+
     internal abstract partial class BoundPattern : BoundNode
     {
         protected BoundPattern(BoundKind kind, SyntaxNode syntax, bool hasErrors)
@@ -6399,6 +6435,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return VisitStringInsert(node as BoundStringInsert, arg);
                 case BoundKind.IsPatternExpression: 
                     return VisitIsPatternExpression(node as BoundIsPatternExpression, arg);
+                case BoundKind.IsnotPatternExpression: 
+                    return VisitIsnotPatternExpression(node as BoundIsnotPatternExpression, arg);
                 case BoundKind.DeclarationPattern: 
                     return VisitDeclarationPattern(node as BoundDeclarationPattern, arg);
                 case BoundKind.ConstantPattern: 
@@ -6988,6 +7026,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             return this.DefaultVisit(node, arg);
         }
         public virtual R VisitIsPatternExpression(BoundIsPatternExpression node, A arg)
+        {
+            return this.DefaultVisit(node, arg);
+        }
+        public virtual R VisitIsnotPatternExpression(BoundIsnotPatternExpression node, A arg)
         {
             return this.DefaultVisit(node, arg);
         }
@@ -7592,6 +7634,10 @@ namespace Microsoft.CodeAnalysis.CSharp
             return this.DefaultVisit(node);
         }
         public virtual BoundNode VisitIsPatternExpression(BoundIsPatternExpression node)
+        {
+            return this.DefaultVisit(node);
+        }
+        public virtual BoundNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node)
         {
             return this.DefaultVisit(node);
         }
@@ -8362,6 +8408,12 @@ namespace Microsoft.CodeAnalysis.CSharp
             return null;
         }
         public override BoundNode VisitIsPatternExpression(BoundIsPatternExpression node)
+        {
+            this.Visit(node.Expression);
+            this.Visit(node.Pattern);
+            return null;
+        }
+        public override BoundNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node)
         {
             this.Visit(node.Expression);
             this.Visit(node.Pattern);
@@ -9239,6 +9291,13 @@ namespace Microsoft.CodeAnalysis.CSharp
             return node.Update(value, alignment, format, type);
         }
         public override BoundNode VisitIsPatternExpression(BoundIsPatternExpression node)
+        {
+            BoundExpression expression = (BoundExpression)this.Visit(node.Expression);
+            BoundPattern pattern = (BoundPattern)this.Visit(node.Pattern);
+            TypeSymbol type = this.VisitType(node.Type);
+            return node.Update(expression, pattern, type);
+        }
+        public override BoundNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node)
         {
             BoundExpression expression = (BoundExpression)this.Visit(node.Expression);
             BoundPattern pattern = (BoundPattern)this.Visit(node.Pattern);
@@ -10766,6 +10825,16 @@ namespace Microsoft.CodeAnalysis.CSharp
         public override TreeDumperNode VisitIsPatternExpression(BoundIsPatternExpression node, object arg)
         {
             return new TreeDumperNode("isPatternExpression", null, new TreeDumperNode[]
+            {
+                new TreeDumperNode("expression", null, new TreeDumperNode[] { Visit(node.Expression, null) }),
+                new TreeDumperNode("pattern", null, new TreeDumperNode[] { Visit(node.Pattern, null) }),
+                new TreeDumperNode("type", node.Type, null)
+            }
+            );
+        }
+        public override TreeDumperNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node, object arg)
+        {
+            return new TreeDumperNode("isnotPatternExpression", null, new TreeDumperNode[]
             {
                 new TreeDumperNode("expression", null, new TreeDumperNode[] { Visit(node.Expression, null) }),
                 new TreeDumperNode("pattern", null, new TreeDumperNode[] { Visit(node.Pattern, null) }),
