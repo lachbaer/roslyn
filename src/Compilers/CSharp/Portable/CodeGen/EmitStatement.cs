@@ -534,8 +534,8 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
                     _builder.EmitBranch(ilcode, dest);
                     return;
 
-                case BoundKind.IsNotOperator:
-                    var isNotOp = (BoundIsNotOperator)condition;
+                case BoundKind.IsnotOperator:
+                    var isNotOp = (BoundIsnotOperator)condition;
                     operand = isNotOp.Operand;
                     EmitExpression(operand, true);
                     Debug.Assert((object)operand.Type != null);

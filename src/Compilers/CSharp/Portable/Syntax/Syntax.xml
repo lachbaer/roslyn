@@ -557,7 +557,7 @@
     <Kind Name="GreaterThanExpression"/>
     <Kind Name="GreaterThanOrEqualExpression"/>
     <Kind Name="IsExpression"/>
-    <Kind Name="IsNotExpression"/>
+    <Kind Name="IsnotExpression"/>
     <Kind Name="AsExpression"/>
     <Kind Name="CoalesceExpression"/>
     <Field Name="Left" Type="ExpressionSyntax">
@@ -585,7 +585,7 @@
       <Kind Name="GreaterThanToken"/>
       <Kind Name="GreaterThanEqualsToken"/>
       <Kind Name="IsKeyword"/>
-      <Kind Name="IsNotKeyword"/>
+      <Kind Name="IsnotKeyword"/>
       <Kind Name="AsKeyword"/>
       <Kind Name="QuestionQuestionToken"/>
       <PropertyComment>
@@ -1698,15 +1698,15 @@
       <summary>Creates an IsPatternExpressionSyntax node.</summary>
     </FactoryComment>
   </Node>
-  <Node Name="IsNotExpressionSyntax" Base="ExpressionSyntax">
-    <Kind Name="IsNotExpression"/>
+  <Node Name="IsnotPatternExpressionSyntax" Base="ExpressionSyntax">
+    <Kind Name="IsnotPatternExpression"/>
     <Field Name="Expression" Type="ExpressionSyntax">
     <PropertyComment>
       <summary>ExpressionSyntax node representing the expression on the left of the "notis" operator.</summary>
     </PropertyComment>
     </Field>
-    <Field Name="IsNotKeyword" Type="SyntaxToken">
-      <Kind Name="IsNotKeyword"/>
+    <Field Name="IsnotKeyword" Type="SyntaxToken">
+      <Kind Name="IsnotKeyword"/>
     </Field>
     <Field Name="Pattern" Type="PatternSyntax">
       <PropertyComment>

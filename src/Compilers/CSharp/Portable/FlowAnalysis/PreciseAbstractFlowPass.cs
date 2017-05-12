@@ -2156,7 +2156,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return null;
         }
 
-        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
+        public override BoundNode VisitIsnotOperator(BoundIsnotOperator node)
         {
             VisitRvalue(node.Operand);
             return null;

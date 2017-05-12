@@ -1,26 +1,26 @@
 Microsoft.CodeAnalysis.CSharp.LanguageVersion.CSharp7_1 = 701 -> Microsoft.CodeAnalysis.CSharp.LanguageVersion
 Microsoft.CodeAnalysis.CSharp.LanguageVersionFacts
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.Expression.get -> Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.IsNotKeyword.get -> Microsoft.CodeAnalysis.SyntaxToken
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.Pattern.get -> Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.Update(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression, Microsoft.CodeAnalysis.SyntaxToken isNotKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax pattern) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.WithExpression(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.WithIsNotKeyword(Microsoft.CodeAnalysis.SyntaxToken isNotKeyword) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax
-Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.WithPattern(Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax pattern) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.Expression.get -> Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.IsnotKeyword.get -> Microsoft.CodeAnalysis.SyntaxToken
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.Pattern.get -> Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.Update(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression, Microsoft.CodeAnalysis.SyntaxToken isnotKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax pattern) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.WithExpression(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.WithIsnotKeyword(Microsoft.CodeAnalysis.SyntaxToken isnotKeyword) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax
+Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.WithPattern(Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax pattern) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax
 Microsoft.CodeAnalysis.CSharp.SyntaxKind.ConflictMarkerTrivia = 8564 -> Microsoft.CodeAnalysis.CSharp.SyntaxKind
 Microsoft.CodeAnalysis.CSharp.SyntaxKind.DefaultLiteralExpression = 8755 -> Microsoft.CodeAnalysis.CSharp.SyntaxKind
-Microsoft.CodeAnalysis.CSharp.SyntaxKind.IsNotExpression = 8699 -> Microsoft.CodeAnalysis.CSharp.SyntaxKind
-Microsoft.CodeAnalysis.CSharp.SyntaxKind.IsNotKeyword = 8389 -> Microsoft.CodeAnalysis.CSharp.SyntaxKind
-override Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitIsNotExpression(Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax node) -> Microsoft.CodeAnalysis.SyntaxNode
-override Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.Accept(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor visitor) -> void
-override Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax.Accept<TResult>(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor<TResult> visitor) -> TResult
+Microsoft.CodeAnalysis.CSharp.SyntaxKind.IsnotExpression = 8699 -> Microsoft.CodeAnalysis.CSharp.SyntaxKind
+Microsoft.CodeAnalysis.CSharp.SyntaxKind.IsnotKeyword = 8389 -> Microsoft.CodeAnalysis.CSharp.SyntaxKind
+Microsoft.CodeAnalysis.CSharp.SyntaxKind.IsnotPatternExpression = 8665 -> Microsoft.CodeAnalysis.CSharp.SyntaxKind
+override Microsoft.CodeAnalysis.CSharp.CSharpSyntaxRewriter.VisitIsnotPatternExpression(Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax node) -> Microsoft.CodeAnalysis.SyntaxNode
+override Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.Accept(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor visitor) -> void
+override Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax.Accept<TResult>(Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor<TResult> visitor) -> TResult
 static Microsoft.CodeAnalysis.CSharp.LanguageVersionFacts.MapSpecifiedToEffectiveVersion(this Microsoft.CodeAnalysis.CSharp.LanguageVersion version) -> Microsoft.CodeAnalysis.CSharp.LanguageVersion
 static Microsoft.CodeAnalysis.CSharp.LanguageVersionFacts.ToDisplayString(this Microsoft.CodeAnalysis.CSharp.LanguageVersion version) -> string
 static Microsoft.CodeAnalysis.CSharp.LanguageVersionFacts.TryParse(this string version, out Microsoft.CodeAnalysis.CSharp.LanguageVersion result) -> bool
-static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.IsNotExpression(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression, Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax pattern) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax
-static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.IsNotExpression(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression, Microsoft.CodeAnalysis.SyntaxToken isNotKeyword, Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax pattern) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax
+static Microsoft.CodeAnalysis.CSharp.SyntaxFactory.IsnotPatternExpression(Microsoft.CodeAnalysis.CSharp.Syntax.ExpressionSyntax expression, Microsoft.CodeAnalysis.CSharp.Syntax.PatternSyntax pattern) -> Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax
 static Microsoft.CodeAnalysis.CSharp.SyntaxFacts.IsReservedTupleElementName(string elementName) -> bool
 static Microsoft.CodeAnalysis.CSharp.SyntaxFacts.TryGetInferredMemberName(this Microsoft.CodeAnalysis.SyntaxNode syntax) -> string
-virtual Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor.VisitIsNotExpression(Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax node) -> void
-virtual Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor<TResult>.VisitIsNotExpression(Microsoft.CodeAnalysis.CSharp.Syntax.IsNotExpressionSyntax node) -> TResult
+virtual Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor.VisitIsnotPatternExpression(Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax node) -> void
+virtual Microsoft.CodeAnalysis.CSharp.CSharpSyntaxVisitor<TResult>.VisitIsnotPatternExpression(Microsoft.CodeAnalysis.CSharp.Syntax.IsnotPatternExpressionSyntax node) -> TResult

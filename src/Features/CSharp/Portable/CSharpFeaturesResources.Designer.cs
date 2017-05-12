@@ -567,6 +567,15 @@ namespace Microsoft.CodeAnalysis.CSharp {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to is pattern.
+        /// </summary>
+        internal static string isnot_pattern {
+            get {
+                return ResourceManager.GetString("isnot_pattern", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to join clause.
         /// </summary>
         internal static string join_clause {

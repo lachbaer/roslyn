@@ -61,7 +61,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         FieldInfo,
         DefaultExpression,
         IsOperator,
-        IsNotOperator,
+        IsnotOperator,
         AsOperator,
         SizeOfOperator,
         Conversion,
@@ -1838,10 +1838,10 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
     }
 
-    internal sealed partial class BoundIsNotOperator : BoundExpression
+    internal sealed partial class BoundIsnotOperator : BoundExpression
     {
-        public BoundIsNotOperator(SyntaxNode syntax, BoundExpression operand, BoundTypeExpression targetType, Conversion conversion, TypeSymbol type, bool hasErrors = false)
-            : base(BoundKind.IsNotOperator, syntax, type, hasErrors || operand.HasErrors() || targetType.HasErrors())
+        public BoundIsnotOperator(SyntaxNode syntax, BoundExpression operand, BoundTypeExpression targetType, Conversion conversion, TypeSymbol type, bool hasErrors = false)
+            : base(BoundKind.IsnotOperator, syntax, type, hasErrors || operand.HasErrors() || targetType.HasErrors())
         {
 
             Debug.Assert(operand != null, "Field 'operand' cannot be null (use Null=\"allow\" in BoundNodes.xml to remove this check)");
@@ -1862,14 +1862,14 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         public override BoundNode Accept(BoundTreeVisitor visitor)
         {
-            return visitor.VisitIsNotOperator(this);
+            return visitor.VisitIsnotOperator(this);
         }
 
-        public BoundIsNotOperator Update(BoundExpression operand, BoundTypeExpression targetType, Conversion conversion, TypeSymbol type)
+        public BoundIsnotOperator Update(BoundExpression operand, BoundTypeExpression targetType, Conversion conversion, TypeSymbol type)
         {
             if (operand != this.Operand || targetType != this.TargetType || conversion != this.Conversion || type != this.Type)
             {
-                var result = new BoundIsNotOperator(this.Syntax, operand, targetType, conversion, type, this.HasErrors);
+                var result = new BoundIsnotOperator(this.Syntax, operand, targetType, conversion, type, this.HasErrors);
                 result.WasCompilerGenerated = this.WasCompilerGenerated;
                 return result;
             }
@@ -6197,8 +6197,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return VisitDefaultExpression(node as BoundDefaultExpression, arg);
                 case BoundKind.IsOperator: 
                     return VisitIsOperator(node as BoundIsOperator, arg);
-                case BoundKind.IsNotOperator: 
-                    return VisitIsNotOperator(node as BoundIsNotOperator, arg);
+                case BoundKind.IsnotOperator: 
+                    return VisitIsnotOperator(node as BoundIsnotOperator, arg);
                 case BoundKind.AsOperator: 
                     return VisitAsOperator(node as BoundAsOperator, arg);
                 case BoundKind.SizeOfOperator: 
@@ -6587,7 +6587,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             return this.DefaultVisit(node, arg);
         }
-        public virtual R VisitIsNotOperator(BoundIsNotOperator node, A arg)
+        public virtual R VisitIsnotOperator(BoundIsnotOperator node, A arg)
         {
             return this.DefaultVisit(node, arg);
         }
@@ -7191,7 +7191,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             return this.DefaultVisit(node);
         }
-        public virtual BoundNode VisitIsNotOperator(BoundIsNotOperator node)
+        public virtual BoundNode VisitIsnotOperator(BoundIsnotOperator node)
         {
             return this.DefaultVisit(node);
         }
@@ -7834,7 +7834,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             this.Visit(node.TargetType);
             return null;
         }
-        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
+        public override BoundNode VisitIsnotOperator(BoundIsnotOperator node)
         {
             this.Visit(node.Operand);
             this.Visit(node.TargetType);
@@ -8647,7 +8647,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             TypeSymbol type = this.VisitType(node.Type);
             return node.Update(operand, targetType, node.Conversion, type);
         }
-        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
+        public override BoundNode VisitIsnotOperator(BoundIsnotOperator node)
         {
             BoundExpression operand = (BoundExpression)this.Visit(node.Operand);
             BoundTypeExpression targetType = (BoundTypeExpression)this.Visit(node.TargetType);
@@ -9713,9 +9713,9 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
             );
         }
-        public override TreeDumperNode VisitIsNotOperator(BoundIsNotOperator node, object arg)
+        public override TreeDumperNode VisitIsnotOperator(BoundIsnotOperator node, object arg)
         {
-            return new TreeDumperNode("isNotOperator", null, new TreeDumperNode[]
+            return new TreeDumperNode("isnotOperator", null, new TreeDumperNode[]
             {
                 new TreeDumperNode("operand", null, new TreeDumperNode[] { Visit(node.Operand, null) }),
                 new TreeDumperNode("targetType", null, new TreeDumperNode[] { Visit(node.TargetType, null) }),

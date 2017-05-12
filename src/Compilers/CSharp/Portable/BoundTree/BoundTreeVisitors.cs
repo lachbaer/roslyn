@@ -52,8 +52,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return VisitDefaultExpression(node as BoundDefaultExpression, arg);
                 case BoundKind.IsOperator:
                     return VisitIsOperator(node as BoundIsOperator, arg);
-                case BoundKind.IsNotOperator:
-                    return VisitIsNotOperator(node as BoundIsNotOperator, arg);
+                case BoundKind.IsnotOperator:
+                    return VisitIsnotOperator(node as BoundIsnotOperator, arg);
                 case BoundKind.AsOperator:
                     return VisitAsOperator(node as BoundAsOperator, arg);
                 case BoundKind.Conversion:

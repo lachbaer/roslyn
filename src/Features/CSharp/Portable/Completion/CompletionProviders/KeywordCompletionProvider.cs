@@ -85,6 +85,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Completion.Providers
                 new IntKeywordRecommender(),
                 new IntoKeywordRecommender(),
                 new IsKeywordRecommender(),
+                new IsnotKeywordRecommender(),
                 new JoinKeywordRecommender(),
                 new LetKeywordRecommender(),
                 new LineKeywordRecommender(),

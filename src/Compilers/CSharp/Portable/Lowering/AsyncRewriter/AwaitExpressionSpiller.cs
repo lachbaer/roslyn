@@ -863,7 +863,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return UpdateExpression(builder, node.Update(operand, node.TargetType, node.Conversion, node.Type));
         }
 
-        public override BoundNode VisitIsNotOperator(BoundIsNotOperator node)
+        public override BoundNode VisitIsnotOperator(BoundIsnotOperator node)
         {
             BoundSpillSequenceBuilder builder = null;
             var operand = VisitExpression(ref builder, node.Operand);

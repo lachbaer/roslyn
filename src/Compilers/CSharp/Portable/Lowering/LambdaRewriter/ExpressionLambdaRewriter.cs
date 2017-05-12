@@ -210,8 +210,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return VisitFieldAccess(fieldAccess);
                 case BoundKind.IsOperator:
                     return VisitIsOperator((BoundIsOperator)node);
-                case BoundKind.IsNotOperator:
-                    return VisitIsNotOperator((BoundIsNotOperator)node);
+                case BoundKind.IsnotOperator:
+                    return VisitIsnotOperator((BoundIsnotOperator)node);
                 case BoundKind.Lambda:
                     return VisitLambda((BoundLambda)node);
                 case BoundKind.NewT:
@@ -734,7 +734,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return ExprFactory("TypeIs", Visit(operand), _bound.Typeof(node.TargetType.Type));
         }
 
-        private BoundExpression VisitIsNotOperator(BoundIsNotOperator node)
+        private BoundExpression VisitIsnotOperator(BoundIsnotOperator node)
         {
             var operand = node.Operand;
             if ((object)operand.Type == null && operand.ConstantValue != null && operand.ConstantValue.IsNull)
@@ -742,7 +742,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 operand = _bound.Null(_objectType);
             }
 
-            return ExprFactory("TypeIsNot", Visit(operand), _bound.Typeof(node.TargetType.Type));
+            return ExprFactory("TypeIsnot", Visit(operand), _bound.Typeof(node.TargetType.Type));
         }
 
         private BoundExpression VisitLambda(BoundLambda node)

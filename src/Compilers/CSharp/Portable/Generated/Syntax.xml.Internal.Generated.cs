@@ -10440,54 +10440,54 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
   }
 
   /// <summary>Class which represents a simple pattern-maching expresion using the "is" keyword.</summary>
-  internal sealed partial class IsNotExpressionSyntax : ExpressionSyntax
+  internal sealed partial class IsnotPatternExpressionSyntax : ExpressionSyntax
   {
     internal readonly ExpressionSyntax expression;
-    internal readonly SyntaxToken isNotKeyword;
+    internal readonly SyntaxToken isnotKeyword;
     internal readonly PatternSyntax pattern;
 
-    internal IsNotExpressionSyntax(SyntaxKind kind, ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern, DiagnosticInfo[] diagnostics, SyntaxAnnotation[] annotations)
+    internal IsnotPatternExpressionSyntax(SyntaxKind kind, ExpressionSyntax expression, SyntaxToken isnotKeyword, PatternSyntax pattern, DiagnosticInfo[] diagnostics, SyntaxAnnotation[] annotations)
         : base(kind, diagnostics, annotations)
     {
         this.SlotCount = 3;
         this.AdjustFlagsAndWidth(expression);
         this.expression = expression;
-        this.AdjustFlagsAndWidth(isNotKeyword);
-        this.isNotKeyword = isNotKeyword;
+        this.AdjustFlagsAndWidth(isnotKeyword);
+        this.isnotKeyword = isnotKeyword;
         this.AdjustFlagsAndWidth(pattern);
         this.pattern = pattern;
     }
 
 
-    internal IsNotExpressionSyntax(SyntaxKind kind, ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern, SyntaxFactoryContext context)
+    internal IsnotPatternExpressionSyntax(SyntaxKind kind, ExpressionSyntax expression, SyntaxToken isnotKeyword, PatternSyntax pattern, SyntaxFactoryContext context)
         : base(kind)
     {
         this.SetFactoryContext(context);
         this.SlotCount = 3;
         this.AdjustFlagsAndWidth(expression);
         this.expression = expression;
-        this.AdjustFlagsAndWidth(isNotKeyword);
-        this.isNotKeyword = isNotKeyword;
+        this.AdjustFlagsAndWidth(isnotKeyword);
+        this.isnotKeyword = isnotKeyword;
         this.AdjustFlagsAndWidth(pattern);
         this.pattern = pattern;
     }
 
 
-    internal IsNotExpressionSyntax(SyntaxKind kind, ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern)
+    internal IsnotPatternExpressionSyntax(SyntaxKind kind, ExpressionSyntax expression, SyntaxToken isnotKeyword, PatternSyntax pattern)
         : base(kind)
     {
         this.SlotCount = 3;
         this.AdjustFlagsAndWidth(expression);
         this.expression = expression;
-        this.AdjustFlagsAndWidth(isNotKeyword);
-        this.isNotKeyword = isNotKeyword;
+        this.AdjustFlagsAndWidth(isnotKeyword);
+        this.isnotKeyword = isnotKeyword;
         this.AdjustFlagsAndWidth(pattern);
         this.pattern = pattern;
     }
 
     /// <summary>ExpressionSyntax node representing the expression on the left of the "notis" operator.</summary>
     public ExpressionSyntax Expression { get { return this.expression; } }
-    public SyntaxToken IsNotKeyword { get { return this.isNotKeyword; } }
+    public SyntaxToken IsnotKeyword { get { return this.isnotKeyword; } }
     /// <summary>PatternSyntax node representing the pattern on the right of the "is" operator.</summary>
     public PatternSyntax Pattern { get { return this.pattern; } }
 
@@ -10496,7 +10496,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         switch (index)
         {
             case 0: return this.expression;
-            case 1: return this.isNotKeyword;
+            case 1: return this.isnotKeyword;
             case 2: return this.pattern;
             default: return null;
         }
@@ -10504,24 +10504,24 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
     internal override SyntaxNode CreateRed(SyntaxNode parent, int position)
     {
-      return new CSharp.Syntax.IsNotExpressionSyntax(this, parent, position);
+      return new CSharp.Syntax.IsnotPatternExpressionSyntax(this, parent, position);
     }
 
     public override TResult Accept<TResult>(CSharpSyntaxVisitor<TResult> visitor)
     {
-        return visitor.VisitIsNotExpression(this);
+        return visitor.VisitIsnotPatternExpression(this);
     }
 
     public override void Accept(CSharpSyntaxVisitor visitor)
     {
-        visitor.VisitIsNotExpression(this);
+        visitor.VisitIsnotPatternExpression(this);
     }
 
-    public IsNotExpressionSyntax Update(ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern)
+    public IsnotPatternExpressionSyntax Update(ExpressionSyntax expression, SyntaxToken isnotKeyword, PatternSyntax pattern)
     {
-        if (expression != this.Expression || isNotKeyword != this.IsNotKeyword || pattern != this.Pattern)
+        if (expression != this.Expression || isnotKeyword != this.IsnotKeyword || pattern != this.Pattern)
         {
-            var newNode = SyntaxFactory.IsNotExpression(expression, isNotKeyword, pattern);
+            var newNode = SyntaxFactory.IsnotPatternExpression(expression, isnotKeyword, pattern);
             var diags = this.GetDiagnostics();
             if (diags != null && diags.Length > 0)
                newNode = newNode.WithDiagnosticsGreen(diags);
@@ -10536,15 +10536,15 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
 
     internal override GreenNode SetDiagnostics(DiagnosticInfo[] diagnostics)
     {
-         return new IsNotExpressionSyntax(this.Kind, this.expression, this.isNotKeyword, this.pattern, diagnostics, GetAnnotations());
+         return new IsnotPatternExpressionSyntax(this.Kind, this.expression, this.isnotKeyword, this.pattern, diagnostics, GetAnnotations());
     }
 
     internal override GreenNode SetAnnotations(SyntaxAnnotation[] annotations)
     {
-         return new IsNotExpressionSyntax(this.Kind, this.expression, this.isNotKeyword, this.pattern, GetDiagnostics(), annotations);
+         return new IsnotPatternExpressionSyntax(this.Kind, this.expression, this.isnotKeyword, this.pattern, GetDiagnostics(), annotations);
     }
 
-    internal IsNotExpressionSyntax(ObjectReader reader)
+    internal IsnotPatternExpressionSyntax(ObjectReader reader)
         : base(reader)
     {
       this.SlotCount = 3;
@@ -10554,11 +10554,11 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
          AdjustFlagsAndWidth(expression);
          this.expression = expression;
       }
-      var isNotKeyword = (SyntaxToken)reader.ReadValue();
-      if (isNotKeyword != null)
+      var isnotKeyword = (SyntaxToken)reader.ReadValue();
+      if (isnotKeyword != null)
       {
-         AdjustFlagsAndWidth(isNotKeyword);
-         this.isNotKeyword = isNotKeyword;
+         AdjustFlagsAndWidth(isnotKeyword);
+         this.isnotKeyword = isnotKeyword;
       }
       var pattern = (PatternSyntax)reader.ReadValue();
       if (pattern != null)
@@ -10572,13 +10572,13 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
     {
       base.WriteTo(writer);
       writer.WriteValue(this.expression);
-      writer.WriteValue(this.isNotKeyword);
+      writer.WriteValue(this.isnotKeyword);
       writer.WriteValue(this.pattern);
     }
 
-    static IsNotExpressionSyntax()
+    static IsnotPatternExpressionSyntax()
     {
-       ObjectBinder.RegisterTypeReader(typeof(IsNotExpressionSyntax), r => new IsNotExpressionSyntax(r));
+       ObjectBinder.RegisterTypeReader(typeof(IsnotPatternExpressionSyntax), r => new IsnotPatternExpressionSyntax(r));
     }
   }
 
@@ -34085,7 +34085,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return this.DefaultVisit(node);
     }
 
-    public virtual TResult VisitIsNotExpression(IsNotExpressionSyntax node)
+    public virtual TResult VisitIsnotPatternExpression(IsnotPatternExpressionSyntax node)
     {
       return this.DefaultVisit(node);
     }
@@ -35114,7 +35114,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       this.DefaultVisit(node);
     }
 
-    public virtual void VisitIsNotExpression(IsNotExpressionSyntax node)
+    public virtual void VisitIsnotPatternExpression(IsnotPatternExpressionSyntax node)
     {
       this.DefaultVisit(node);
     }
@@ -36344,12 +36344,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return node.Update(expression, isKeyword, pattern);
     }
 
-    public override CSharpSyntaxNode VisitIsNotExpression(IsNotExpressionSyntax node)
+    public override CSharpSyntaxNode VisitIsnotPatternExpression(IsnotPatternExpressionSyntax node)
     {
       var expression = (ExpressionSyntax)this.Visit(node.Expression);
-      var isNotKeyword = (SyntaxToken)this.Visit(node.IsNotKeyword);
+      var isnotKeyword = (SyntaxToken)this.Visit(node.IsnotKeyword);
       var pattern = (PatternSyntax)this.Visit(node.Pattern);
-      return node.Update(expression, isNotKeyword, pattern);
+      return node.Update(expression, isnotKeyword, pattern);
     }
 
     public override CSharpSyntaxNode VisitThrowExpression(ThrowExpressionSyntax node)
@@ -38340,7 +38340,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         case SyntaxKind.GreaterThanExpression:
         case SyntaxKind.GreaterThanOrEqualExpression:
         case SyntaxKind.IsExpression:
-        case SyntaxKind.IsNotExpression:
+        case SyntaxKind.IsnotExpression:
         case SyntaxKind.AsExpression:
         case SyntaxKind.CoalesceExpression:
           break;
@@ -38373,7 +38373,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         case SyntaxKind.GreaterThanToken:
         case SyntaxKind.GreaterThanEqualsToken:
         case SyntaxKind.IsKeyword:
-        case SyntaxKind.IsNotKeyword:
+        case SyntaxKind.IsnotKeyword:
         case SyntaxKind.AsKeyword:
         case SyntaxKind.QuestionQuestionToken:
           break;
@@ -39934,29 +39934,29 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return result;
     }
 
-    public IsNotExpressionSyntax IsNotExpression(ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern)
+    public IsnotPatternExpressionSyntax IsnotPatternExpression(ExpressionSyntax expression, SyntaxToken isnotKeyword, PatternSyntax pattern)
     {
 #if DEBUG
       if (expression == null)
         throw new ArgumentNullException(nameof(expression));
-      if (isNotKeyword == null)
-        throw new ArgumentNullException(nameof(isNotKeyword));
-      switch (isNotKeyword.Kind)
+      if (isnotKeyword == null)
+        throw new ArgumentNullException(nameof(isnotKeyword));
+      switch (isnotKeyword.Kind)
       {
-        case SyntaxKind.IsNotKeyword:
+        case SyntaxKind.IsnotKeyword:
           break;
         default:
-          throw new ArgumentException("isNotKeyword");
+          throw new ArgumentException("isnotKeyword");
       }
       if (pattern == null)
         throw new ArgumentNullException(nameof(pattern));
 #endif
 
       int hash;
-      var cached = CSharpSyntaxNodeCache.TryGetNode((int)SyntaxKind.IsNotExpression, expression, isNotKeyword, pattern, this.context, out hash);
-      if (cached != null) return (IsNotExpressionSyntax)cached;
+      var cached = CSharpSyntaxNodeCache.TryGetNode((int)SyntaxKind.IsnotPatternExpression, expression, isnotKeyword, pattern, this.context, out hash);
+      if (cached != null) return (IsnotPatternExpressionSyntax)cached;
 
-      var result = new IsNotExpressionSyntax(SyntaxKind.IsNotExpression, expression, isNotKeyword, pattern, this.context);
+      var result = new IsnotPatternExpressionSyntax(SyntaxKind.IsnotPatternExpression, expression, isnotKeyword, pattern, this.context);
       if (hash >= 0)
       {
           SyntaxNodeCache.AddNode(result, hash);
@@ -45286,7 +45286,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         case SyntaxKind.GreaterThanExpression:
         case SyntaxKind.GreaterThanOrEqualExpression:
         case SyntaxKind.IsExpression:
-        case SyntaxKind.IsNotExpression:
+        case SyntaxKind.IsnotExpression:
         case SyntaxKind.AsExpression:
         case SyntaxKind.CoalesceExpression:
           break;
@@ -45319,7 +45319,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
         case SyntaxKind.GreaterThanToken:
         case SyntaxKind.GreaterThanEqualsToken:
         case SyntaxKind.IsKeyword:
-        case SyntaxKind.IsNotKeyword:
+        case SyntaxKind.IsnotKeyword:
         case SyntaxKind.AsKeyword:
         case SyntaxKind.QuestionQuestionToken:
           break;
@@ -46880,29 +46880,29 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
       return result;
     }
 
-    public static IsNotExpressionSyntax IsNotExpression(ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern)
+    public static IsnotPatternExpressionSyntax IsnotPatternExpression(ExpressionSyntax expression, SyntaxToken isnotKeyword, PatternSyntax pattern)
     {
 #if DEBUG
       if (expression == null)
         throw new ArgumentNullException(nameof(expression));
-      if (isNotKeyword == null)
-        throw new ArgumentNullException(nameof(isNotKeyword));
-      switch (isNotKeyword.Kind)
+      if (isnotKeyword == null)
+        throw new ArgumentNullException(nameof(isnotKeyword));
+      switch (isnotKeyword.Kind)
       {
-        case SyntaxKind.IsNotKeyword:
+        case SyntaxKind.IsnotKeyword:
           break;
         default:
-          throw new ArgumentException("isNotKeyword");
+          throw new ArgumentException("isnotKeyword");
       }
       if (pattern == null)
         throw new ArgumentNullException(nameof(pattern));
 #endif
 
       int hash;
-      var cached = SyntaxNodeCache.TryGetNode((int)SyntaxKind.IsNotExpression, expression, isNotKeyword, pattern, out hash);
-      if (cached != null) return (IsNotExpressionSyntax)cached;
+      var cached = SyntaxNodeCache.TryGetNode((int)SyntaxKind.IsnotPatternExpression, expression, isnotKeyword, pattern, out hash);
+      if (cached != null) return (IsnotPatternExpressionSyntax)cached;
 
-      var result = new IsNotExpressionSyntax(SyntaxKind.IsNotExpression, expression, isNotKeyword, pattern);
+      var result = new IsnotPatternExpressionSyntax(SyntaxKind.IsnotPatternExpression, expression, isnotKeyword, pattern);
       if (hash >= 0)
       {
           SyntaxNodeCache.AddNode(result, hash);
@@ -51515,7 +51515,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax
            typeof(OmittedArraySizeExpressionSyntax),
            typeof(InterpolatedStringExpressionSyntax),
            typeof(IsPatternExpressionSyntax),
-           typeof(IsNotExpressionSyntax),
+           typeof(IsnotPatternExpressionSyntax),
            typeof(ThrowExpressionSyntax),
            typeof(WhenClauseSyntax),
            typeof(DeclarationPatternSyntax),

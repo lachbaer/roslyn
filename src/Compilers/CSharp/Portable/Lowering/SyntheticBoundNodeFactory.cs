@@ -515,11 +515,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             return new BoundIsOperator(this.Syntax, operand, Type(type), c, SpecialType(Microsoft.CodeAnalysis.SpecialType.System_Boolean)) { WasCompilerGenerated = true };
         }
 
-        public BoundIsNotOperator IsNot(BoundExpression operand, TypeSymbol type)
+        public BoundIsnotOperator Isnot(BoundExpression operand, TypeSymbol type)
         {
             HashSet<DiagnosticInfo> discarded = null;
             Conversion c = Compilation.Conversions.ClassifyConversionFromExpression(operand, type, ref discarded);
-            return new BoundIsNotOperator(this.Syntax, operand, Type(type), c, SpecialType(Microsoft.CodeAnalysis.SpecialType.System_Boolean)) { WasCompilerGenerated = true };
+            return new BoundIsnotOperator(this.Syntax, operand, Type(type), c, SpecialType(Microsoft.CodeAnalysis.SpecialType.System_Boolean)) { WasCompilerGenerated = true };
         }
 
         public BoundBinaryOperator LogicalAnd(BoundExpression left, BoundExpression right)

@@ -1990,7 +1990,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Extensions
                 return nextToken.Kind() == SyntaxKind.OpenParenToken ||
                     nextToken.Kind() == SyntaxKind.TildeToken ||
                     nextToken.Kind() == SyntaxKind.ExclamationToken ||
-                    (SyntaxFacts.IsKeywordKind(nextToken.Kind()) && !(nextToken.Kind() == SyntaxKind.AsKeyword || nextToken.Kind() == SyntaxKind.IsKeyword));
+                    (SyntaxFacts.IsKeywordKind(nextToken.Kind()) && !(nextToken.Kind() == SyntaxKind.AsKeyword 
+                        || nextToken.Kind() == SyntaxKind.IsKeyword || nextToken.Kind() == SyntaxKind.IsnotKeyword));
             }
 
             return false;

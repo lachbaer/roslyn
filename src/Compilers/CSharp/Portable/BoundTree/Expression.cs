@@ -783,7 +783,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
     }
 
-    internal partial class BoundIsNotOperator : IIsTypeExpression
+    internal partial class BoundIsnotOperator : IIsTypeExpression
     {
         IOperation IIsTypeExpression.Operand => this.Operand;
 

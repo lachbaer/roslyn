@@ -382,6 +382,10 @@
     <value>is pattern</value>
     <comment>{Locked="is"} "is" is a C# keyword and should not be localized.</comment>
   </data>
+  <data name="isnot_pattern" xml:space="preserve">
+    <value>is pattern</value>
+    <comment>{Locked="isnot"} "isnot" is a C# keyword and should not be localized.</comment>
+  </data>
   <data name="deconstruction" xml:space="preserve">
     <value>deconstruction</value>
   </data>

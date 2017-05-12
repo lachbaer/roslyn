@@ -1389,6 +1389,7 @@ namespace Microsoft.CodeAnalysis.CSharp.EditAndContinue
                     return ((GroupClauseSyntax)node).GroupKeyword.Span;
 
                 case SyntaxKind.IsPatternExpression:
+                case SyntaxKind.IsnotPatternExpression:
                 case SyntaxKind.TupleType:
                 case SyntaxKind.TupleExpression:
                 case SyntaxKind.DeclarationExpression:
@@ -1647,6 +1648,9 @@ namespace Microsoft.CodeAnalysis.CSharp.EditAndContinue
 
                 case SyntaxKind.IsPatternExpression:
                     return CSharpFeaturesResources.is_pattern;
+
+                case SyntaxKind.IsnotPatternExpression:
+                    return CSharpFeaturesResources.isnot_pattern;
 
                 case SyntaxKind.SimpleAssignmentExpression:
                     if (((AssignmentExpressionSyntax)node).IsDeconstruction())

@@ -5329,7 +5329,7 @@ tryAgain:
                 case SyntaxKind.GreaterThanToken when this.PeekToken(1).Kind != SyntaxKind.GreaterThanToken: // not >>
                                                          // e.g. `e is A<B> > C`
                 case SyntaxKind.IsKeyword:               // e.g. `e is A<B> is bool`
-                case SyntaxKind.IsNotKeyword:               // e.g. `e is A<B> isnot bool`
+                case SyntaxKind.IsnotKeyword:               // e.g. `e is A<B> isnot bool`
                 case SyntaxKind.AsKeyword:               // e.g. `e is A<B> as bool`
                     // These tokens are added to 7.5.4.2 Grammar Ambiguities in C#7 for a possible type following the `is` keyword
                     return ((options & NameOptions.AfterIs) != 0)
@@ -8809,9 +8809,10 @@ tryAgain:
                 case SyntaxKind.GreaterThanExpression:
                 case SyntaxKind.GreaterThanOrEqualExpression:
                 case SyntaxKind.IsExpression:
-                case SyntaxKind.IsNotExpression:
+                case SyntaxKind.IsnotExpression:
                 case SyntaxKind.AsExpression:
                 case SyntaxKind.IsPatternExpression:
+                case SyntaxKind.IsnotPatternExpression:
                     return Precedence.Relational;
                 case SyntaxKind.LeftShiftExpression:
                 case SyntaxKind.RightShiftExpression:
@@ -9077,9 +9078,9 @@ tryAgain:
                 {
                     leftOperand = ParseIsExpression(leftOperand, opToken);
                 }
-                else if (opKind == SyntaxKind.IsNotExpression)
+                else if (opKind == SyntaxKind.IsnotExpression)
                 {
-                    leftOperand = ParseIsNotExpression(leftOperand, opToken);
+                    leftOperand = ParseIsnotExpression(leftOperand, opToken);
                 }
                 else
                 {
@@ -9158,20 +9159,20 @@ tryAgain:
             }
         }
 
-        private ExpressionSyntax ParseIsNotExpression(ExpressionSyntax leftOperand, SyntaxToken opToken)
+        private ExpressionSyntax ParseIsnotExpression(ExpressionSyntax leftOperand, SyntaxToken opToken)
         {
             var node = this.ParseTypeOrPatternForIsOperator();
             if (node is PatternSyntax)
             {
-                var result = _syntaxFactory.IsNotExpression(leftOperand, opToken, (PatternSyntax)node);
-                return this.AddError(result, ErrorCode.ERR_InvalidExprTerm, this.CurrentToken.Text);
+                var result = _syntaxFactory.IsnotPatternExpression(leftOperand, opToken, (PatternSyntax)node);
+                //return this.AddError(result, ErrorCode.ERR_InvalidExprTerm, node.ToString());
 
-                //return CheckFeatureAvailability(result, MessageID.IDS_FeaturePatternMatching);
+                return CheckFeatureAvailability(result, MessageID.IDS_FeaturePatternMatching);
             }
             else
             {
                 Debug.Assert(node is TypeSyntax);
-                return _syntaxFactory.BinaryExpression(SyntaxKind.IsNotExpression, leftOperand, opToken, (TypeSyntax)node);
+                return _syntaxFactory.BinaryExpression(SyntaxKind.IsnotExpression, leftOperand, opToken, (TypeSyntax)node);
             }
         }
 
@@ -10217,7 +10218,7 @@ tryAgain:
             {
                 case SyntaxKind.AsKeyword:
                 case SyntaxKind.IsKeyword:
-                case SyntaxKind.IsNotKeyword:
+                case SyntaxKind.IsnotKeyword:
                 case SyntaxKind.SemicolonToken:
                 case SyntaxKind.CloseParenToken:
                 case SyntaxKind.CloseBracketToken:

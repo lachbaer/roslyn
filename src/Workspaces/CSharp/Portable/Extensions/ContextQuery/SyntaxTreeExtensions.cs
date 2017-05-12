@@ -1604,7 +1604,8 @@ namespace Microsoft.CodeAnalysis.CSharp.Extensions.ContextQuery
             token = token.GetPreviousTokenIfTouchingWord(position);
 
             if (token.IsKind(SyntaxKind.IsKeyword) ||
-                token.IsKind(SyntaxKind.AsKeyword))
+                token.IsKind(SyntaxKind.AsKeyword) ||
+                token.IsKind(SyntaxKind.IsnotKeyword))
             {
                 return true;
             }

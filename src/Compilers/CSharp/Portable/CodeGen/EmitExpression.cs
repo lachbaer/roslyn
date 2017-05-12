@@ -187,8 +187,8 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
                     EmitIsExpression((BoundIsOperator)expression, used);
                     break;
 
-                case BoundKind.IsNotOperator:
-                    EmitIsNotExpression((BoundIsNotOperator)expression, used);
+                case BoundKind.IsnotOperator:
+                    EmitIsnotExpression((BoundIsnotOperator)expression, used);
                     break;
 
                 case BoundKind.AsOperator:
@@ -2594,7 +2594,7 @@ namespace Microsoft.CodeAnalysis.CSharp.CodeGen
             }
         }
 
-        private void EmitIsNotExpression(BoundIsNotOperator isNotOp, bool used)
+        private void EmitIsnotExpression(BoundIsnotOperator isNotOp, bool used)
         {
             var operand = isNotOp.Operand;
             EmitExpression(operand, used);

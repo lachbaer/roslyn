@@ -2556,7 +2556,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             return false;
         }
 
-        private bool IsOperandErrors(CSharpSyntaxNode node, ref BoundExpression operand, DiagnosticBag diagnostics, bool isIsNotOperator = false)
+        private bool IsOperandErrors(CSharpSyntaxNode node, ref BoundExpression operand, DiagnosticBag diagnostics)
         {
             switch (operand.Kind)
             {
@@ -2579,7 +2579,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                         {
                             // Operator 'is' cannot be applied to operand of type '(int, <null>)'
                             Error(diagnostics, ErrorCode.ERR_BadUnaryOp, node, 
-                                SyntaxFacts.GetText(isIsNotOperator ? SyntaxKind.IsNotKeyword : SyntaxKind.IsKeyword), operand.Display);
+                                SyntaxFacts.GetText(node.Kind() == SyntaxKind.IsnotKeyword ? SyntaxKind.IsnotKeyword : SyntaxKind.IsKeyword), operand.Display);
                         }
 
                         return true;
@@ -2719,8 +2719,107 @@ namespace Microsoft.CodeAnalysis.CSharp
             return new BoundIsOperator(node, operand, typeExpression, conversion, resultType);
         }
 
-        private BoundExpression BindIsNotOperator(BinaryExpressionSyntax node, DiagnosticBag diagnostics)
+        private BoundExpression BindIsnotOperator(BinaryExpressionSyntax node, DiagnosticBag diagnostics)
         {
+            var resultType = (TypeSymbol)GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
+            var operand = BindValue(node.Left, diagnostics, BindValueKind.RValue);
+            var operandHasErrors = IsOperandErrors(node, ref operand, diagnostics);
+            // try binding as a type, but back off to binding as an expression if that does not work.
+            AliasSymbol alias;
+            TypeSymbol targetType;
+            var isTypeDiagnostics = DiagnosticBag.GetInstance();
+            targetType = BindType(node.Right, isTypeDiagnostics, out alias);
+
+            if (targetType?.IsErrorType() == true && isTypeDiagnostics.HasAnyResolvedErrors() &&
+                    ((CSharpParseOptions)node.SyntaxTree.Options).IsFeatureEnabled(MessageID.IDS_FeaturePatternMatching))
+            {
+                // it did not bind as a type; try binding as a constant expression pattern
+                bool wasExpression;
+                var isPatternDiagnostics = DiagnosticBag.GetInstance();
+                if ((object)operand.Type == null)
+                {
+                    if (!operandHasErrors)
+                    {
+                        isPatternDiagnostics.Add(ErrorCode.ERR_BadIsPatternExpression, node.Left.Location, operand.Display);
+                    }
+
+                    operand = ToBadExpression(operand);
+                }
+
+                var boundConstantPattern = BindConstantPattern(
+                    node.Right, operand, operand.Type, node.Right, node.Right.HasErrors, isPatternDiagnostics, out wasExpression, wasSwitchCase: false);
+                if (wasExpression)
+                {
+                    isTypeDiagnostics.Free();
+                    diagnostics.AddRangeAndFree(isPatternDiagnostics);
+                    return new BoundIsPatternExpression(node, operand, boundConstantPattern, resultType, operandHasErrors);
+                }
+
+                isPatternDiagnostics.Free();
+            }
+
+            diagnostics.AddRangeAndFree(isTypeDiagnostics);
+            var typeExpression = new BoundTypeExpression(node.Right, alias, targetType);
+            var targetTypeKind = targetType.TypeKind;
+            if (operandHasErrors || IsOperatorErrors(node, operand.Type, typeExpression, diagnostics))
+            {
+                return new BoundIsnotOperator(node, operand, typeExpression, Conversion.NoConversion, resultType, hasErrors: true);
+            }
+
+            // Is and As operator should have null ConstantValue as they are not constant expressions.
+            // However we perform analysis of is/as expressions at bind time to detect if the expression 
+            // will always evaluate to a constant to generate warnings (always true/false/null).
+            // We also need this analysis result during rewrite to optimize away redundant isinst instructions.
+            // We store the conversion from expression's operand type to target type to enable these
+            // optimizations during is/as operator rewrite.
+
+            HashSet<DiagnosticInfo> useSiteDiagnostics = null;
+
+            if (operand.ConstantValue == ConstantValue.Null ||
+                operand.Kind == BoundKind.MethodGroup ||
+                operand.Type.SpecialType == SpecialType.System_Void)
+            {
+                // warning for cases where the result is always false:
+                // (a) "null is TYPE" OR operand evaluates to null 
+                // (b) operand is a MethodGroup
+                // (c) operand is of void type
+
+                // NOTE:    Dev10 violates the SPEC for case (c) above and generates
+                // NOTE:    an error ERR_NoExplicitBuiltinConv if the target type
+                // NOTE:    is an open type. According to the specification, the result
+                // NOTE:    is always false, but no compile time error occurs.
+                // NOTE:    We follow the specification and generate WRN_IsAlwaysFalse
+                // NOTE:    instead of an error.
+                // NOTE:    See Test SyntaxBinderTests.TestIsOperatorWithTypeParameter
+
+                Error(diagnostics, ErrorCode.WRN_IsAlwaysTrue, node, targetType);
+                Conversion conv = Conversions.ClassifyConversionFromExpression(operand, targetType, ref useSiteDiagnostics);
+                diagnostics.Add(node, useSiteDiagnostics);
+                return new BoundIsnotOperator(node, operand, typeExpression, conv, resultType);
+            }
+
+            if (targetTypeKind == TypeKind.Dynamic)
+            {
+                // warning for dynamic target type
+                Error(diagnostics, ErrorCode.WRN_IsDynamicIsConfusing,
+                    node, node.OperatorToken.Text, targetType.Name,
+                    GetSpecialType(SpecialType.System_Object, diagnostics, node).Name // a pretty way of getting the string "Object"
+                    );
+            }
+
+            var operandType = operand.Type;
+            Debug.Assert((object)operandType != null);
+            if (operandType.TypeKind == TypeKind.Dynamic)
+            {
+                // if operand has a dynamic type, we do the same thing as though it were an object
+                operandType = GetSpecialType(SpecialType.System_Object, diagnostics, node);
+            }
+
+            Conversion conversion = Conversions.ClassifyConversionFromType(operandType, targetType, ref useSiteDiagnostics);
+            diagnostics.Add(node, useSiteDiagnostics);
+            ReportIsOperatorConstantWarnings(node, diagnostics, operandType, targetType, conversion.Kind, operand.ConstantValue);
+            return new BoundIsnotOperator(node, operand, typeExpression, conversion, resultType);
+
             var boolean = GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
             var isOperator = BindIsOperator(node, diagnostics);
             return new BoundUnaryOperator(node, UnaryOperatorKind.BoolLogicalNegation, isOperator, ConstantValue.NotAvailable, null, LookupResultKind.Empty, boolean);
@@ -2732,7 +2831,8 @@ namespace Microsoft.CodeAnalysis.CSharp
             TypeSymbol operandType,
             TypeSymbol targetType,
             ConversionKind conversionKind,
-            ConstantValue operandConstantValue)
+            ConstantValue operandConstantValue
+            )
         {
             // NOTE:    Even though BoundIsOperator and BoundAsOperator will always have no ConstantValue
             // NOTE:    (they are non-constant expressions according to Section 7.19 of the specification),
@@ -2743,8 +2843,11 @@ namespace Microsoft.CodeAnalysis.CSharp
             if (constantValue != null)
             {
                 Debug.Assert(constantValue == ConstantValue.True || constantValue == ConstantValue.False);
+                Debug.Assert(syntax.Kind() == SyntaxKind.IsExpression || syntax.Kind() == SyntaxKind.IsnotExpression);
+                ErrorCode errorCode = (syntax.Kind() == SyntaxKind.IsnotExpression) ^ (constantValue == ConstantValue.True)
+                    ? ErrorCode.WRN_IsAlwaysTrue 
+                    : ErrorCode.WRN_IsAlwaysFalse;
 
-                ErrorCode errorCode = constantValue == ConstantValue.True ? ErrorCode.WRN_IsAlwaysTrue : ErrorCode.WRN_IsAlwaysFalse;
                 Error(diagnostics, errorCode, syntax, targetType);
             }
         }

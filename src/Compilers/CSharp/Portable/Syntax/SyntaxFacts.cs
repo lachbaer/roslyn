@@ -125,7 +125,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                     case AsExpression:
                     case IsExpression:
-                    case IsNotExpression:
+                    case IsnotExpression:
                         return ((BinaryExpressionSyntax)parent).Right == node;
 
                     case TypeOfExpression:

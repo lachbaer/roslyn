@@ -261,8 +261,10 @@ namespace Microsoft.CodeAnalysis.CSharp.Formatting
                         return CreateAdjustSpacesOperation(1, AdjustSpacesOption.ForceSpacesIfOnSingleLine);
                     case BinaryOperatorSpacingOptions.Remove:
                         if (currentKind == SyntaxKind.IsKeyword ||
+                            currentKind == SyntaxKind.IsnotKeyword ||
                             currentKind == SyntaxKind.AsKeyword ||
                             previousKind == SyntaxKind.IsKeyword ||
+                            previousKind == SyntaxKind.IsnotKeyword ||
                             previousKind == SyntaxKind.AsKeyword)
                         {
                             // User want spaces removed but at least one is required for the "as" & "is" keyword

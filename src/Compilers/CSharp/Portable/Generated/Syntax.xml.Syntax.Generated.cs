@@ -6538,12 +6538,12 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
   }
 
   /// <summary>Class which represents a simple pattern-maching expresion using the "is" keyword.</summary>
-  public sealed partial class IsNotExpressionSyntax : ExpressionSyntax
+  public sealed partial class IsnotPatternExpressionSyntax : ExpressionSyntax
   {
     private ExpressionSyntax expression;
     private PatternSyntax pattern;
 
-    internal IsNotExpressionSyntax(Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.CSharpSyntaxNode green, SyntaxNode parent, int position)
+    internal IsnotPatternExpressionSyntax(Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.CSharpSyntaxNode green, SyntaxNode parent, int position)
         : base(green, parent, position)
     {
     }
@@ -6557,9 +6557,9 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
         }
     }
 
-    public SyntaxToken IsNotKeyword 
+    public SyntaxToken IsnotKeyword 
     {
-      get { return new SyntaxToken(this, ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.IsNotExpressionSyntax)this.Green).isNotKeyword, this.GetChildPosition(1), this.GetChildIndex(1)); }
+      get { return new SyntaxToken(this, ((Microsoft.CodeAnalysis.CSharp.Syntax.InternalSyntax.IsnotPatternExpressionSyntax)this.Green).isnotKeyword, this.GetChildPosition(1), this.GetChildIndex(1)); }
     }
 
     /// <summary>PatternSyntax node representing the pattern on the right of the "is" operator.</summary>
@@ -6592,19 +6592,19 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
 
     public override TResult Accept<TResult>(CSharpSyntaxVisitor<TResult> visitor)
     {
-        return visitor.VisitIsNotExpression(this);
+        return visitor.VisitIsnotPatternExpression(this);
     }
 
     public override void Accept(CSharpSyntaxVisitor visitor)
     {
-        visitor.VisitIsNotExpression(this);
+        visitor.VisitIsnotPatternExpression(this);
     }
 
-    public IsNotExpressionSyntax Update(ExpressionSyntax expression, SyntaxToken isNotKeyword, PatternSyntax pattern)
+    public IsnotPatternExpressionSyntax Update(ExpressionSyntax expression, SyntaxToken isnotKeyword, PatternSyntax pattern)
     {
-        if (expression != this.Expression || isNotKeyword != this.IsNotKeyword || pattern != this.Pattern)
+        if (expression != this.Expression || isnotKeyword != this.IsnotKeyword || pattern != this.Pattern)
         {
-            var newNode = SyntaxFactory.IsNotExpression(expression, isNotKeyword, pattern);
+            var newNode = SyntaxFactory.IsnotPatternExpression(expression, isnotKeyword, pattern);
             var annotations = this.GetAnnotations();
             if (annotations != null && annotations.Length > 0)
                return newNode.WithAnnotations(annotations);
@@ -6614,19 +6614,19 @@ namespace Microsoft.CodeAnalysis.CSharp.Syntax
         return this;
     }
 
-    public IsNotExpressionSyntax WithExpression(ExpressionSyntax expression)
+    public IsnotPatternExpressionSyntax WithExpression(ExpressionSyntax expression)
     {
-        return this.Update(expression, this.IsNotKeyword, this.Pattern);
+        return this.Update(expression, this.IsnotKeyword, this.Pattern);
     }
 
-    public IsNotExpressionSyntax WithIsNotKeyword(SyntaxToken isNotKeyword)
+    public IsnotPatternExpressionSyntax WithIsnotKeyword(SyntaxToken isnotKeyword)
     {
-        return this.Update(this.Expression, isNotKeyword, this.Pattern);
+        return this.Update(this.Expression, isnotKeyword, this.Pattern);
     }
 
-    public IsNotExpressionSyntax WithPattern(PatternSyntax pattern)
+    public IsnotPatternExpressionSyntax WithPattern(PatternSyntax pattern)
     {
-        return this.Update(this.Expression, this.IsNotKeyword, pattern);
+        return this.Update(this.Expression, this.IsnotKeyword, pattern);
     }
   }
 

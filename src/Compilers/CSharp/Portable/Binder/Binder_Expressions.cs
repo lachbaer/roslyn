@@ -492,8 +492,8 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                 case SyntaxKind.IsExpression:
                     return BindIsOperator((BinaryExpressionSyntax)node, diagnostics);
-                case SyntaxKind.IsNotExpression:
-                    return BindIsNotOperator((BinaryExpressionSyntax)node, diagnostics);
+                case SyntaxKind.IsnotExpression:
+                    return BindIsnotOperator((BinaryExpressionSyntax)node, diagnostics);
 
                 case SyntaxKind.AsExpression:
                     return BindAsOperator((BinaryExpressionSyntax)node, diagnostics);
@@ -616,6 +616,9 @@ namespace Microsoft.CodeAnalysis.CSharp
 
                 case SyntaxKind.IsPatternExpression:
                     return BindIsPatternExpression((IsPatternExpressionSyntax)node, diagnostics);
+
+                case SyntaxKind.IsnotPatternExpression:
+                    return BindIsnotPatternExpression((IsPatternExpressionSyntax)node, diagnostics);
 
                 case SyntaxKind.TupleExpression:
                     return BindTupleExpression((TupleExpressionSyntax)node, diagnostics);
