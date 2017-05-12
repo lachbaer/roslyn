@@ -2579,7 +2579,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                         {
                             // Operator 'is' cannot be applied to operand of type '(int, <null>)'
                             Error(diagnostics, ErrorCode.ERR_BadUnaryOp, node, 
-                                SyntaxFacts.GetText(node.Kind() == SyntaxKind.IsnotKeyword ? SyntaxKind.IsnotKeyword : SyntaxKind.IsKeyword), operand.Display);
+                                SyntaxFacts.GetText(node.Kind() == SyntaxKind.IsnotExpression ? SyntaxKind.IsnotKeyword : SyntaxKind.IsKeyword), operand.Display);
                         }
 
                         return true;
@@ -2721,6 +2721,10 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         private BoundExpression BindIsnotOperator(BinaryExpressionSyntax node, DiagnosticBag diagnostics)
         {
+            var boolean = GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
+            var isOperator = BindIsOperator(node, diagnostics);
+            return new BoundUnaryOperator(node, UnaryOperatorKind.BoolLogicalNegation, isOperator, ConstantValue.NotAvailable, null, LookupResultKind.Empty, boolean);
+
             var resultType = (TypeSymbol)GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
             var operand = BindValue(node.Left, diagnostics, BindValueKind.RValue);
             var operandHasErrors = IsOperandErrors(node, ref operand, diagnostics);
@@ -2819,10 +2823,6 @@ namespace Microsoft.CodeAnalysis.CSharp
             diagnostics.Add(node, useSiteDiagnostics);
             ReportIsOperatorConstantWarnings(node, diagnostics, operandType, targetType, conversion.Kind, operand.ConstantValue);
             return new BoundIsnotOperator(node, operand, typeExpression, conversion, resultType);
-
-            var boolean = GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
-            var isOperator = BindIsOperator(node, diagnostics);
-            return new BoundUnaryOperator(node, UnaryOperatorKind.BoolLogicalNegation, isOperator, ConstantValue.NotAvailable, null, LookupResultKind.Empty, boolean);
         }
 
         private static void ReportIsOperatorConstantWarnings(
