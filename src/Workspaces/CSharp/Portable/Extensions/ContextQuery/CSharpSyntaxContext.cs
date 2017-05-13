@@ -228,7 +228,7 @@ namespace Microsoft.CodeAnalysis.CSharp.Extensions.ContextQuery
                 syntaxTree.IsDefiniteCastTypeContext(position, leftToken, cancellationToken),
                 syntaxTree.IsGenericTypeArgumentContext(position, leftToken, cancellationToken),
                 syntaxTree.IsEnumBaseListContext(position, leftToken, cancellationToken),
-                syntaxTree.IsIsOrAsTypeContext(position, leftToken, cancellationToken),
+                syntaxTree.IsIsOrIsnotOrAsTypeContext(position, leftToken, cancellationToken),
                 syntaxTree.IsLocalVariableDeclarationContext(position, leftToken, cancellationToken),
                 syntaxTree.IsDeclarationExpressionContext(position, leftToken, cancellationToken),
                 syntaxTree.IsFixedVariableDeclarationContext(position, leftToken, cancellationToken),

@@ -86,30 +86,6 @@ namespace Microsoft.CodeAnalysis.CSharp.ConvertIfToSwitch
                             }
                         }
 
-                    case SyntaxKind.IsnotPatternExpression:
-                        {
-                            // Look for the form "x is T t" where "x" is equivalent to the switch expression.
-                            // This will turn into a type pattern e.g. "case T t:".
-                            var node = (IsnotPatternExpressionSyntax)operand;
-                            if (!SetInitialOrIsEquivalentToSwitchExpression(node.Expression))
-                            {
-                                return null;
-                            }
-
-                            switch (node.Pattern)
-                            {
-                                case DeclarationPatternSyntax p
-                                    when p.Designation is SingleVariableDesignationSyntax designation:
-                                    return new Pattern.ByType(p.Type, designation.Identifier);
-
-                                case ConstantPatternSyntax p:
-                                    return new Pattern.ByValue(p.Expression);
-
-                                default:
-                                    return null;
-                            }
-                        }
-
                     case SyntaxKind.LogicalAndExpression:
                         {
                             // Look for the form "expr && cond" where "expr" must be one of the above cases.
@@ -124,7 +100,6 @@ namespace Microsoft.CodeAnalysis.CSharp.ConvertIfToSwitch
                             switch (leftmost.Kind())
                             {
                                 case SyntaxKind.IsPatternExpression:
-                                case SyntaxKind.IsnotPatternExpression:
                                 case SyntaxKind.IsExpression:
                                 case SyntaxKind.EqualsExpression:
                                     break;
