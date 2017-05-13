@@ -783,22 +783,22 @@ namespace Microsoft.CodeAnalysis.CSharp
         }
     }
 
-    internal partial class BoundIsnotOperator : IIsTypeExpression
+    internal partial class BoundIsnotOperator : IIsnotTypeExpression
     {
         IOperation IIsTypeExpression.Operand => this.Operand;
 
         ITypeSymbol IIsTypeExpression.IsType => this.TargetType.Type;
 
-        protected override OperationKind ExpressionKind => OperationKind.IsTypeExpression;
+        protected override OperationKind ExpressionKind => OperationKind.IsnotTypeExpression;
 
         public override void Accept(OperationVisitor visitor)
         {
-            visitor.VisitIsTypeExpression(this);
+            visitor.VisitIsnotTypeExpression(this);
         }
 
         public override TResult Accept<TArgument, TResult>(OperationVisitor<TArgument, TResult> visitor, TArgument argument)
         {
-            return visitor.VisitIsTypeExpression(this, argument);
+            return visitor.VisitIsnotTypeExpression(this, argument);
         }
     }
 

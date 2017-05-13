@@ -318,6 +318,11 @@ namespace Microsoft.CodeAnalysis.Semantics
             Visit(operation.Operand);
         }
 
+        public override void VisitIsnotTypeExpression(IIsnotTypeExpression operation)
+        {
+            Visit(operation.Operand);
+        }
+
         public override void VisitSizeOfExpression(ISizeOfExpression operation)
         { }
 

@@ -618,7 +618,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return BindIsPatternExpression((IsPatternExpressionSyntax)node, diagnostics);
 
                 case SyntaxKind.IsnotPatternExpression:
-                    return BindIsnotPatternExpression((IsPatternExpressionSyntax)node, diagnostics);
+                    return BindIsnotPatternExpression((IsnotPatternExpressionSyntax)node, diagnostics);
 
                 case SyntaxKind.TupleExpression:
                     return BindTupleExpression((TupleExpressionSyntax)node, diagnostics);

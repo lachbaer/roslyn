@@ -2831,8 +2831,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             TypeSymbol operandType,
             TypeSymbol targetType,
             ConversionKind conversionKind,
-            ConstantValue operandConstantValue
-            )
+            ConstantValue operandConstantValue)
         {
             // NOTE:    Even though BoundIsOperator and BoundAsOperator will always have no ConstantValue
             // NOTE:    (they are non-constant expressions according to Section 7.19 of the specification),

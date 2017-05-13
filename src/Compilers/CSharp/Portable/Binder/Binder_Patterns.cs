@@ -32,7 +32,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 node, expression, pattern, GetSpecialType(SpecialType.System_Boolean, diagnostics, node), hasErrors);
         }
 
-        private BoundExpression BindIsnotPatternExpression(IsPatternExpressionSyntax node, DiagnosticBag diagnostics)
+        private BoundExpression BindIsnotPatternExpression(IsnotPatternExpressionSyntax node, DiagnosticBag diagnostics)
         {   //*EIK audit this!
             var expression = BindValue(node.Expression, diagnostics, BindValueKind.RValue);
             var hasErrors = IsOperandErrors(node, ref expression, diagnostics);

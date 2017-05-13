@@ -372,6 +372,13 @@ namespace Microsoft.CodeAnalysis.Test.Utilities
             base.VisitIsTypeExpression(operation);
         }
 
+        public override void VisitIsnotTypeExpression(IIsnotTypeExpression operation)
+        {
+            var isType = operation.IsType;
+
+            base.VisitIsnotTypeExpression(operation);
+        }
+
         public override void VisitSizeOfExpression(ISizeOfExpression operation)
         {
             var typeOperand = operation.TypeOperand;

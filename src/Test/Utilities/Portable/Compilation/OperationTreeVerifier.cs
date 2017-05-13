@@ -806,6 +806,18 @@ namespace Microsoft.CodeAnalysis.Test.Utilities
             Unindent();
         }
 
+        public override void VisitIsnotTypeExpression(IIsnotTypeExpression operation)
+        {
+            LogString(nameof(IIsTypeExpression));
+            LogCommonPropertiesAndNewLine(operation);
+
+            base.VisitIsnotTypeExpression(operation);
+
+            Indent();
+            LogType(operation.Type);
+            Unindent();
+        }
+
         private void LogTypeOperationExpressionCommon(ITypeOperationExpression operation)
         {
             LogString(" (");

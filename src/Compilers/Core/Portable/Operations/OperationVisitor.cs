@@ -680,6 +680,11 @@ namespace Microsoft.CodeAnalysis.Semantics
             return DefaultVisit(operation, argument);
         }
 
+        public virtual TResult VisitIsnotTypeExpression(IIsnotTypeExpression operation, TArgument argument)
+        {
+            return DefaultVisit(operation, argument);
+        }
+
         public virtual TResult VisitSizeOfExpression(ISizeOfExpression operation, TArgument argument)
         {
             return DefaultVisit(operation, argument);
