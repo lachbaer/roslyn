@@ -785,9 +785,9 @@ namespace Microsoft.CodeAnalysis.CSharp
 
     internal partial class BoundIsnotOperator : IIsnotTypeExpression
     {
-        IOperation IIsTypeExpression.Operand => this.Operand;
+        IOperation IIsnotTypeExpression.Operand => this.Operand;
 
-        ITypeSymbol IIsTypeExpression.IsType => this.TargetType.Type;
+        ITypeSymbol IIsnotTypeExpression.IsnotType => this.TargetType.Type;
 
         protected override OperationKind ExpressionKind => OperationKind.IsnotTypeExpression;
 
