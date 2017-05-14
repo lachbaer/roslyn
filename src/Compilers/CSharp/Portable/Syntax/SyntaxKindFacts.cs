@@ -13,7 +13,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         public static IEnumerable<SyntaxKind> GetReservedKeywordKinds()
         {
-            for (int i = (int)SyntaxKind.BoolKeyword; i <= (int)SyntaxKind.IsnotKeyword; i++)
+            for (int i = (int)SyntaxKind.BoolKeyword; i <= (int)SyntaxKind.ImplicitKeyword; i++)
             {
                 yield return (SyntaxKind)i;
             }
@@ -34,7 +34,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         public static bool IsReservedKeyword(SyntaxKind kind)
         {
-            return kind >= SyntaxKind.BoolKeyword && kind <= SyntaxKind.IsnotKeyword;
+            return kind >= SyntaxKind.BoolKeyword && kind <= SyntaxKind.ImplicitKeyword;
         }
 
         public static bool IsAttributeTargetSpecifier(SyntaxKind kind)
@@ -1052,7 +1052,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
         public static IEnumerable<SyntaxKind> GetContextualKeywordKinds()
         {
-            for (int i = (int)SyntaxKind.YieldKeyword; i <= (int)SyntaxKind.WhenKeyword; i++)
+            for (int i = (int)SyntaxKind.YieldKeyword; i <= (int)SyntaxKind.IsnotKeyword; i++)
             {
                 yield return (SyntaxKind)i;
             }
@@ -1096,6 +1096,7 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.AwaitKeyword:
                 case SyntaxKind.WhenKeyword:
                 case SyntaxKind.UnderscoreToken:
+                case SyntaxKind.IsnotKeyword:
                     return true;
                 default:
                     return false;
@@ -1195,6 +1196,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.WhenKeyword;
                 case "nameof":
                     return SyntaxKind.NameOfKeyword;
+                case "isnot":
+                    return SyntaxKind.IsnotKeyword;
                 case "_":
                     return SyntaxKind.UnderscoreToken;
                 default:
@@ -1452,8 +1455,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return "in";
                 case SyntaxKind.IsKeyword:
                     return "is";
-                case SyntaxKind.IsnotKeyword:
-                    return "isnot";
                 case SyntaxKind.AsKeyword:
                     return "as";
                 case SyntaxKind.ParamsKeyword:
@@ -1596,6 +1597,8 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return "await";
                 case SyntaxKind.WhenKeyword:
                     return "when";
+                case SyntaxKind.IsnotKeyword:
+                    return "isnot";
                 case SyntaxKind.InterpolatedVerbatimStringStartToken:
                     return "$@\"";
                 case SyntaxKind.InterpolatedStringStartToken:
