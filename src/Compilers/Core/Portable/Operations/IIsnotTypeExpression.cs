@@ -5,7 +5,7 @@ using System.Collections.Immutable;
 namespace Microsoft.CodeAnalysis.Semantics
 {
     /// <summary>
-    /// Represents an expression that tests if a value is of a specific type.
+    /// Represents an expression that tests if a value is not of a specific type.
     /// </summary>
     /// <remarks>
     /// This interface is reserved for implementation by its associated APIs. We reserve the right to
@@ -20,7 +20,7 @@ namespace Microsoft.CodeAnalysis.Semantics
         /// <summary>
         /// Type for which to test.
         /// </summary>
-        ITypeSymbol IsType { get; }
+        ITypeSymbol IsnotType { get; }
     }
 }
 

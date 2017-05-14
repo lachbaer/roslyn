@@ -81,8 +81,8 @@
     <Compile Include="Operations\IInvalidExpression.cs" />
     <Compile Include="Operations\IInvalidStatement.cs" />
     <Compile Include="Operations\IInvocationExpression.cs" />
-    <Compile Include="Operations\IIsnotTypeExpression.cs" />
     <Compile Include="Operations\IIsTypeExpression.cs" />
+    <Compile Include="Operations\IIsnotTypeExpression.cs" />
     <Compile Include="Operations\ILabelStatement.cs" />
     <Compile Include="Operations\ILambdaExpression.cs" />
     <Compile Include="Operations\ILateBoundMemberReferenceExpression.cs" />

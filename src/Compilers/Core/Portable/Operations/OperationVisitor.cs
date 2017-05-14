@@ -280,6 +280,11 @@ namespace Microsoft.CodeAnalysis.Semantics
             DefaultVisit(operation);
         }
 
+        public virtual void VisitIsnotTypeExpression(IIsnotTypeExpression operation)
+        {
+            DefaultVisit(operation);
+        }
+
         public virtual void VisitSizeOfExpression(ISizeOfExpression operation)
         {
             DefaultVisit(operation);

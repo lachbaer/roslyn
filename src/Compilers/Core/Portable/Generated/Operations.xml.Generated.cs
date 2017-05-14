@@ -1208,6 +1208,39 @@ namespace Microsoft.CodeAnalysis.Semantics
     }
 
     /// <summary>
+    /// Represents an expression that tests if a value is not of a specific type.
+    /// </summary>
+    /// <remarks>
+    /// This interface is reserved for implementation by its associated APIs. We reserve the right to
+    /// change it in the future.
+    /// </remarks>
+    internal sealed partial class IsnotTypeExpression : Operation, IIsnotTypeExpression
+    {
+        public IsnotTypeExpression(IOperation operand, ITypeSymbol isnotType, bool isInvalid, SyntaxNode syntax, ITypeSymbol type, Optional<object> constantValue) :
+            base(OperationKind.IsnotTypeExpression, isInvalid, syntax, type, constantValue)
+        {
+            Operand = operand;
+            IsnotType = isnotType;
+        }
+        /// <summary>
+        /// Value to test.
+        /// </summary>
+        public IOperation Operand { get; }
+        /// <summary>
+        /// Type for which to test.
+        /// </summary>
+        public ITypeSymbol IsnotType { get; }
+        public override void Accept(OperationVisitor visitor)
+        {
+            visitor.VisitIsnotTypeExpression(this);
+        }
+        public override TResult Accept<TArgument, TResult>(OperationVisitor<TArgument, TResult> visitor, TArgument argument)
+        {
+            return visitor.VisitIsnotTypeExpression(this, argument);
+        }
+    }
+
+    /// <summary>
     /// Represents a C# or VB label statement.
     /// </summary>
     /// <remarks>

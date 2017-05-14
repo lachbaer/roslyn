@@ -128,7 +128,6 @@ namespace Microsoft.CodeAnalysis
         ConditionalAccessInstanceExpression = 0x11d,
         /// <summary>Indicates an <see cref="IIsnotTypeExpression"/>.</summary>
         IsnotTypeExpression = 0x130,
-        /// <summary>Indicates an <see cref="IAwaitExpression"/>.</summary>
 
         // Expressions that occur only in C#.
 
