@@ -17,16 +17,6 @@ namespace Microsoft.CodeAnalysis.CSharp
             return MakeIsPattern(loweredPattern, loweredExpression);
         }
 
-        public override BoundNode VisitIsnotPatternExpression(BoundIsnotPatternExpression node)
-        {   //*EIK OWNMETHOD
-            var loweredExpression = VisitExpression(node.Expression);
-            var loweredPattern = LowerPattern(node.Pattern);
-            Debug.Assert(loweredPattern.Kind == BoundKind.ConstantPattern, "Isnot with declaration or wildcard cannot be here!");
-
-            var declPattern = (BoundDeclarationPattern)loweredPattern;
-            return MakeIsDeclarationPattern(declPattern, loweredExpression);
-        }
-
         // Input must be used no more than once in the result. If it is needed repeatedly store its value in a temp and use the temp.
         BoundExpression MakeIsPattern(BoundPattern loweredPattern, BoundExpression loweredInput)
         {
