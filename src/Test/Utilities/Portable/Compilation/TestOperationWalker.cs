@@ -374,7 +374,7 @@ namespace Microsoft.CodeAnalysis.Test.Utilities
 
         public override void VisitIsnotTypeExpression(IIsnotTypeExpression operation)
         {
-            var isType = operation.IsnotType;
+            var isnotType = operation.IsnotType;
 
             base.VisitIsnotTypeExpression(operation);
         }
