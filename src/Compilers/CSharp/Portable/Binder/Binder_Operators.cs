@@ -2723,7 +2723,8 @@ namespace Microsoft.CodeAnalysis.CSharp
         {
             var boolean = GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
             var isOperator = BindIsOperator(node, diagnostics);
-            return new BoundUnaryOperator(node, UnaryOperatorKind.BoolLogicalNegation, isOperator, ConstantValue.NotAvailable, null, LookupResultKind.Empty, boolean);
+            return new BoundUnaryOperator(node, UnaryOperatorKind.BoolLogicalNegation, isOperator,
+                ConstantValue.NotAvailable, null, LookupResultKind.Viable, boolean) { WasCompilerGenerated = false };
 
             var resultType = (TypeSymbol)GetSpecialType(SpecialType.System_Boolean, diagnostics, node);
             var operand = BindValue(node.Left, diagnostics, BindValueKind.RValue);
