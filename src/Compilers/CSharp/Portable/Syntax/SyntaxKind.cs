@@ -157,7 +157,6 @@ namespace Microsoft.CodeAnalysis.CSharp
         OperatorKeyword = 8382,
         ExplicitKeyword = 8383,
         ImplicitKeyword = 8384,
-        IsnotKeyword = 8389,
 
         // contextual keywords
         YieldKeyword = 8405,
@@ -193,6 +192,7 @@ namespace Microsoft.CodeAnalysis.CSharp
         AsyncKeyword = 8435,
         AwaitKeyword = 8436,
         WhenKeyword = 8437,
+        IsnotKeyword = 8447,
 
         // additional preprocessor keywords
         ElifKeyword = 8467,
