@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Microsoft.CodeAnalysis.CSharp
 {
@@ -578,8 +580,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.CoalesceExpression;
                 case SyntaxKind.IsKeyword:
                     return SyntaxKind.IsExpression;
-                case SyntaxKind.IsnotKeyword:
-                    return SyntaxKind.IsnotExpression;
                 case SyntaxKind.AsKeyword:
                     return SyntaxKind.AsExpression;
                 case SyntaxKind.BarToken:
@@ -911,8 +911,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.InKeyword;
                 case "is":
                     return SyntaxKind.IsKeyword;
-                case "isnot":
-                    return SyntaxKind.IsnotKeyword;
                 case "as":
                     return SyntaxKind.AsKeyword;
                 case "params":
@@ -1050,12 +1048,25 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
+        private static ReadOnlyCollection<SyntaxKind> _lazyContextualKeywordKindsArray;
         public static IEnumerable<SyntaxKind> GetContextualKeywordKinds()
         {
-            for (int i = (int)SyntaxKind.YieldKeyword; i <= (int)SyntaxKind.IsnotKeyword; i++)
+            if (_lazyContextualKeywordKindsArray == null)
             {
-                yield return (SyntaxKind)i;
+                ushort firstKeywordIdInclusive = (ushort)SyntaxKind.YieldKeyword;
+                ushort lastKeywordIdExclusive = (ushort)SyntaxKind.ElifKeyword;
+                var builderList = new List<SyntaxKind>(70);
+                for (ushort id = firstKeywordIdInclusive; id < lastKeywordIdExclusive; ++id)
+                {
+                    if (Enum.IsDefined(typeof(SyntaxKind), id))
+                    {
+                        builderList.Add((SyntaxKind)id);
+                    }
+                }
+                _lazyContextualKeywordKindsArray = builderList.AsReadOnly();
             }
+
+            return _lazyContextualKeywordKindsArray;
         }
 
         public static bool IsContextualKeyword(SyntaxKind kind)
@@ -1096,7 +1107,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                 case SyntaxKind.AwaitKeyword:
                 case SyntaxKind.WhenKeyword:
                 case SyntaxKind.UnderscoreToken:
-                case SyntaxKind.IsnotKeyword:
                     return true;
                 default:
                     return false;
@@ -1196,8 +1206,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.WhenKeyword;
                 case "nameof":
                     return SyntaxKind.NameOfKeyword;
-                case "isnot":
-                    return SyntaxKind.IsnotKeyword;
                 case "_":
                     return SyntaxKind.UnderscoreToken;
                 default:
@@ -1597,8 +1605,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return "await";
                 case SyntaxKind.WhenKeyword:
                     return "when";
-                case SyntaxKind.IsnotKeyword:
-                    return "isnot";
                 case SyntaxKind.InterpolatedVerbatimStringStartToken:
                     return "$@\"";
                 case SyntaxKind.InterpolatedStringStartToken:
