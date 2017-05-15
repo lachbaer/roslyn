@@ -193,6 +193,9 @@ namespace Microsoft.CodeAnalysis.CSharp
         AwaitKeyword = 8436,
         WhenKeyword = 8437,
         IsnotKeyword = 8447,
+        /// when adding a contextual keyword following functions must be adapted:
+        /// <see cref="SyntaxFacts.GetContextualKeywordKinds"/>
+        /// <see cref="SyntaxFacts.IsContextualKeyword(SyntaxKind)"/>
 
         // additional preprocessor keywords
         // keywords with an enum value less than ElifKeyword are considered i.a. contextual keywords
