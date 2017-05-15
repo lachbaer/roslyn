@@ -63,7 +63,7 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             // if left conversion is intrinsic implicit (always succeeds) and results in a reference type
             // we can apply conversion before doing the null check that allows for a more efficient IL emit.
-            if ((rewrittenLeft.Type.IsReferenceType || rewrittenLeft.Type.IsValueType) &&
+            if (rewrittenLeft.Type.IsReferenceType &&
                 leftConversion.IsImplicit &&
                 !leftConversion.IsUserDefined)
             {
@@ -115,26 +115,9 @@ namespace Microsoft.CodeAnalysis.CSharp
 
             BoundAssignmentOperator tempAssignment;
             BoundLocal boundTemp = _factory.StoreToTemp(rewrittenLeft, out tempAssignment);
-            BoundExpression nullOrDefaultCheck;
 
-            if (rewrittenLeft.Type.IsValueType)
-            {
-                // temp != default(A)
-                TypeSymbol boolType = _compilation.GetSpecialType(SpecialType.System_Boolean);
-
-                nullOrDefaultCheck = MakeBinaryOperator(
-                            syntax,
-                            BinaryOperatorKind.NotEqual,
-                            boundTemp,
-                            _factory.Default(rewrittenLeft.Type),
-                            boolType,
-                            null);
-            }
-            else
-            {
-                // temp != null
-                nullOrDefaultCheck = MakeNullCheck(syntax, boundTemp, BinaryOperatorKind.NotEqual);
-            }
+            // temp != null
+            BoundExpression nullCheck = MakeNullCheck(syntax, boundTemp, BinaryOperatorKind.NotEqual);
 
             // MakeConversion(temp, rewrittenResultType)
             BoundExpression convertedLeft = GetConvertedLeftForNullCoalescingOperator(boundTemp, leftConversion, rewrittenResultType);
@@ -143,7 +126,7 @@ namespace Microsoft.CodeAnalysis.CSharp
             // (temp != null) ? MakeConversion(temp, LeftConversion) : RightOperand
             BoundExpression conditionalExpression = RewriteConditionalOperator(
                 syntax: syntax,
-                rewrittenCondition: nullOrDefaultCheck,
+                rewrittenCondition: nullCheck,
                 rewrittenConsequence: convertedLeft,
                 rewrittenAlternative: rewrittenRight,
                 constantValueOpt: null,
