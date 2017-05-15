@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft.  All Rights Reserved.  Licensed under the Apache License, Version 2.0.  See License.txt in the project root for license information.
 
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Microsoft.CodeAnalysis.CSharp
 {
@@ -1050,12 +1052,25 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
+        private static ReadOnlyCollection<SyntaxKind> _lazyContextualKeywordKindsArray;
         public static IEnumerable<SyntaxKind> GetContextualKeywordKinds()
         {
-            for (int i = (int)SyntaxKind.YieldKeyword; i <= (int)SyntaxKind.IsnotKeyword; i++)
+            if (_lazyContextualKeywordKindsArray == null)
             {
-                yield return (SyntaxKind)i;
+                ushort firstKeywordIdInclusive = (ushort)SyntaxKind.YieldKeyword;
+                ushort lastKeywordIdExclusive = (ushort)SyntaxKind.ElifKeyword;
+                var builderList = new List<SyntaxKind>(70);
+                for (ushort id = firstKeywordIdInclusive; id < lastKeywordIdExclusive; ++id)
+                {
+                    if (Enum.IsDefined(typeof(SyntaxKind), id))
+                    {
+                        builderList.Add((SyntaxKind)id);
+                    }
+                }
+                _lazyContextualKeywordKindsArray = builderList.AsReadOnly();
             }
+
+            return _lazyContextualKeywordKindsArray;
         }
 
         public static bool IsContextualKeyword(SyntaxKind kind)
