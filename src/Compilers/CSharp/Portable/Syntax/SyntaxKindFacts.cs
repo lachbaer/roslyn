@@ -1052,22 +1052,22 @@ namespace Microsoft.CodeAnalysis.CSharp
             }
         }
 
-        private static ReadOnlyCollection<SyntaxKind> _lazyContextualKeywordKindsArray;
+        private static IReadOnlyCollection<SyntaxKind> _lazyContextualKeywordKindsArray;
         public static IEnumerable<SyntaxKind> GetContextualKeywordKinds()
         {
             if (_lazyContextualKeywordKindsArray == null)
             {
                 ushort firstKeywordIdInclusive = (ushort)SyntaxKind.YieldKeyword;
                 ushort lastKeywordIdExclusive = (ushort)SyntaxKind.ElifKeyword;
-                var builderList = new List<SyntaxKind>(70);
+                var builder = new ArrayBuilder<SyntaxKind>(lastKeywordIdExclusive - firstKeywordIdInclusive);
                 for (ushort id = firstKeywordIdInclusive; id < lastKeywordIdExclusive; ++id)
                 {
                     if (Enum.IsDefined(typeof(SyntaxKind), id))
                     {
-                        builderList.Add((SyntaxKind)id);
+                        builder.Add((SyntaxKind)id);
                     }
                 }
-                _lazyContextualKeywordKindsArray = builderList.AsReadOnly();
+                _lazyContextualKeywordKindsArray = builder.ToImmutable();
             }
 
             return _lazyContextualKeywordKindsArray;
