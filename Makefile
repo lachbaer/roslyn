@@ -43,14 +43,14 @@ bootstrap: restore
 	$(BUILD_CMD) src/Compilers/CSharp/CscCore && \
 	$(BUILD_CMD) src/Compilers/VisualBasic/VbcCore && \
 	mkdir -p $(BOOTSTRAP_PATH)/csc && mkdir -p $(BOOTSTRAP_PATH)/vbc && \
-	dotnet publish -r $(RUNTIME_ID) src/Compilers/CSharp/CscCore -o $(BOOTSTRAP_PATH)/csc && \
-	dotnet publish -r $(RUNTIME_ID) src/Compilers/VisualBasic/VbcCore -o $(BOOTSTRAP_PATH)/vbc
+	dotnet publish -c $(BUILD_CONFIGURATION) -r $(RUNTIME_ID) src/Compilers/CSharp/CscCore -o $(BOOTSTRAP_PATH)/csc && \
+	dotnet publish -c $(BUILD_CONFIGURATION) -r $(RUNTIME_ID) src/Compilers/VisualBasic/VbcCore -o $(BOOTSTRAP_PATH)/vbc
 	rm -rf Binaries/$(BUILD_CONFIGURATION)
 
 test:
 	@export PATH="$(BINARIES_PATH)/dotnet-cli:$(PATH)" ; \
 	export HOME="$(HOME_DIR)" ; \
-	dotnet publish -r $(RUNTIME_ID) src/Test/DeployCoreClrTestRuntime -o $(BINARIES_PATH)/$(BUILD_CONFIGURATION)/CoreClrTest && \
+	dotnet publish -r $(RUNTIME_ID) src/Test/DeployCoreClrTestRuntime -o $(BINARIES_PATH)/$(BUILD_CONFIGURATION)/CoreClrTest -p:RoslynRuntimeIdentifier=$(RUNTIME_ID) && \
 	build/scripts/tests.sh $(BUILD_CONFIGURATION)
 
 restore: $(DOTNET)

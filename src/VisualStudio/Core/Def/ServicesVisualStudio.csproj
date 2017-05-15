@@ -128,7 +128,6 @@
     <Compile Include="Implementation\Remote\RemoteHostClientServiceFactory.SolutionChecksumUpdater.cs" />
     <Compile Include="Implementation\Remote\RemoteHostOptions.cs" />
     <Compile Include="Implementation\RQName\RQName.cs" />
-    <Compile Include="Implementation\Serialization\AssemblySerializationInfoService.cs" />
     <Compile Include="Implementation\TableDataSource\DiagnosticTableControlEventProcessorProvider.AggregateDiagnosticTableControlEventProcessor.cs" />
     <Compile Include="Implementation\TableDataSource\Suppression\IVisualStudioDiagnosticListSuppressionStateService.cs" />
     <Compile Include="Implementation\TableDataSource\Suppression\VisualStudioDiagnosticListTableCommandHandler.cs" />
@@ -169,12 +168,14 @@
     <Compile Include="Implementation\Workspace\VisualStudioErrorReportingService.ExceptionFormatting.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioErrorReportingServiceFactory.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioErrorReportingService.cs" />
+    <Compile Include="Implementation\InfoBar\VisualStudioInfoBarService.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioNavigationOptions.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioNavigationOptionsProvider.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioProjectCacheHostServiceFactory.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioTaskSchedulerFactory.cs" />
     <Compile Include="Packaging\Interop\SVsRemoteControlService.cs" />
     <Compile Include="Packaging\IPackageServicesProxy.cs" />
+    <Compile Include="Packaging\PackageInstallerService.ProjectState.cs" />
     <Compile Include="Storage\VisualStudioPersistentStorageLocationService.cs" />
     <Compile Include="SymbolSearch\AbstractDelayStartedService.cs" />
     <Compile Include="Packaging\PackageInstallerServiceFactory.cs" />
@@ -494,7 +495,6 @@
     <Compile Include="Implementation\Debugging\IProximityExpressionsService.cs" />
     <Compile Include="Implementation\DesignerAttribute\DesignerAttributeIncrementalAnalyzer.cs" />
     <Compile Include="Implementation\DesignerAttribute\DesignerAttributeIncrementalAnalyzerProvider.cs" />
-    <Compile Include="Implementation\DesignerAttribute\DesignerAttributeState.cs" />
     <Compile Include="Implementation\Diagnostics\VisualStudioWorkspaceDiagnosticAnalyzerProviderService.cs" />
     <Compile Include="Implementation\Diagnostics\VisualStudioDiagnosticAnalyzerService.cs" />
     <Compile Include="Implementation\Diagnostics\IVisualStudioDiagnosticAnalyzerService.cs" />
@@ -741,6 +741,7 @@
     <Compile Include="Implementation\Workspace\GlobalUndoServiceFactory.NoOpUndoPrimitive.cs" />
     <Compile Include="Implementation\Workspace\GlobalUndoServiceFactory.WorkspaceGlobalUndoTransaction.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioAddMetadataReferenceCodeActionOperationFactoryWorkspaceService.cs" />
+    <Compile Include="Implementation\Workspace\VisualStudioSymbolRenamedCodeActionOperationFactoryWorkspaceService.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioFormattingRuleFactoryServiceFactory.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioDocumentNavigationService.cs" />
     <Compile Include="Implementation\Workspace\VisualStudioDocumentNavigationServiceFactory.cs" />

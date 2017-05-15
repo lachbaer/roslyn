@@ -207,6 +207,7 @@
     <Compile Include="..\..\..\Compilers\Core\Portable\Syntax\SyntaxTreeExtensions.cs">
       <Link>InternalUtilities\SyntaxTreeExtensions.cs</Link>
     </Compile>
+    <Compile Include="ExtensionManager\IInfoBarService.cs" />
   </ItemGroup>
   <ItemGroup>
     <InternalsVisibleTo Include="csi" />
@@ -368,7 +369,7 @@
     <Compile Include="Execution\CustomAsset.cs" />
     <Compile Include="Execution\CustomAssetBuilder.cs" />
     <Compile Include="Execution\SolutionAsset.cs" />
-    <Compile Include="Execution\WellKnownSynchronizationKinds.cs" />
+    <Compile Include="Execution\WellKnownSynchronizationKind.cs" />
     <Compile Include="Experiments\IExperimentationService.cs" />
     <Compile Include="FindSymbols\Declarations\DeclarationFinder.cs" />
     <Compile Include="FindSymbols\Declarations\DeclarationFinder_AllDeclarations.cs" />
@@ -607,8 +608,6 @@
     <Compile Include="Log\LogMessage.cs" />
     <Compile Include="Log\WorkspaceErrorLogger.cs" />
     <Compile Include="Rename\TokenRenameInfo.cs" />
-    <Compile Include="Serialization\AssemblySerializationInfoService.cs" />
-    <Compile Include="Serialization\IAssemblySerializationInfoService.cs" />
     <Compile Include="Shared\Extensions\AccessibilityUtilities.cs" />
     <Compile Include="Shared\Extensions\FileLinePositionSpanExtensions.cs" />
     <Compile Include="Shared\Extensions\LocationExtensions.cs" />
