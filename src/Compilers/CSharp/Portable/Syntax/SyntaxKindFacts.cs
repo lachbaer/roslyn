@@ -911,8 +911,6 @@ namespace Microsoft.CodeAnalysis.CSharp
                     return SyntaxKind.InKeyword;
                 case "is":
                     return SyntaxKind.IsKeyword;
-                case "isnot":
-                    return SyntaxKind.IsnotKeyword;
                 case "as":
                     return SyntaxKind.AsKeyword;
                 case "params":
